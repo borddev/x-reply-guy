@@ -4,106 +4,77 @@ Twitter/X analytics dashboard.
 
 ## Setup Steps
 
-When asked to setup x-reply-guy, follow ALL steps automatically:
+When asked to setup x-reply-guy, follow ALL steps automatically without stopping:
 
 ### 1. Start Dashboard & Open Setup UI
 
-Start the BORD dashboard immediately so user sees visual progress:
+Start the BORD dashboard and open setup screen:
 ```bash
 cd ~/bord && npm run dev > /dev/null 2>&1 &
 sleep 3
 open http://localhost:3000/setup
 ```
 
-Initialize setup status:
+Reset and initialize setup:
 ```bash
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":1,"message":"Installing X Reply Guy...","progress":10,"complete":false}'
+curl -s -X DELETE http://localhost:3000/api/setup > /dev/null
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":1,"message":"Installing X Reply Guy...","progress":5,"complete":false,"logs":["→ Starting X Reply Guy setup..."],"app":{"name":"X Reply Guy","description":"Twitter/X analytics & automation","icon":"x","features":["Track reply impressions & engagement","Views per minute analytics","Stealth browser automation","Persistent login sessions"]}}'
 ```
 
 ### 2. Install App Pages
 
-Update progress:
+Log and copy files:
 ```bash
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":1,"message":"Copying app files...","progress":20,"complete":false}'
-```
-
-Copy app pages and API routes to BORD dashboard:
-```bash
-mkdir -p ~/bord/app/x-reply-guy/api && cp -r ~/bord/apps/x-reply-guy/app/* ~/bord/app/x-reply-guy/ && cp -r ~/bord/apps/x-reply-guy/api/* ~/bord/app/x-reply-guy/api/
-```
-
-Update progress:
-```bash
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":2,"message":"App files installed!","progress":30,"complete":false}'
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"→ Creating app directory..."}'
+mkdir -p ~/bord/app/x-reply-guy/api
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"→ Copying app pages...","progress":15}'
+cp -r ~/bord/apps/x-reply-guy/app/* ~/bord/app/x-reply-guy/
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"→ Copying API routes...","progress":20}'
+cp -r ~/bord/apps/x-reply-guy/api/* ~/bord/app/x-reply-guy/api/
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"✓ App files installed","step":2,"message":"Installing browser...","progress":30}'
 ```
 
 ### 3. Install Browser
 
-Update progress:
+Install Playwright with logging:
 ```bash
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":2,"message":"Installing BORD Browser...","progress":40,"complete":false}'
-```
-
-Install Playwright browsers:
-```bash
-cd ~/bord && npx playwright install chromium
-```
-
-Update progress:
-```bash
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":3,"message":"Browser installed!","progress":60,"complete":false}'
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"→ Installing Playwright Chromium...","message":"Downloading browser..."}'
+cd ~/bord && npx playwright install chromium 2>&1 | head -5
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"✓ Browser installed","step":2,"message":"Browser ready!","progress":50}'
 ```
 
 ### 4. Launch Browser for Login
 
-Update progress:
+Launch browser and start auto-detection:
 ```bash
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":3,"message":"Launching browser - please login to X...","progress":70,"complete":false}'
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"→ Launching BORD Browser...","step":3,"message":"Opening browser...","progress":55}'
+npx tsx ~/bord/lib/browser.ts launch x-reply-guy > /dev/null 2>&1 &
+sleep 3
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"✓ Browser launched","log":"→ Navigate to x.com and login","message":"Login to X in the browser...","progress":60,"waitingForLogin":true}'
 ```
 
-Launch the browser:
+### 5. Auto-Detect Login & Complete
+
+Start the login detection script (runs in background, auto-completes when logged in):
 ```bash
-npx tsx ~/bord/lib/browser.ts launch x-reply-guy &
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"→ Waiting for X login...","message":"Login to X - setup will continue automatically","progress":70}'
+npx tsx ~/bord/lib/check-x-login.ts x-reply-guy &
 ```
 
-Wait 3 seconds for browser to open.
-
-Tell user:
-```
-══════════════════════════════════════════════════════════════
- LOGIN TO TWITTER/X
-══════════════════════════════════════════════════════════════
-
- A browser window just opened!
-
- 1. Login to your Twitter/X account
- 2. DON'T close the browser - just come back here
-
- Say "done" when you're logged in
-══════════════════════════════════════════════════════════════
-```
-
-Wait for user to say "done".
-
-### 5. Complete Setup
-
-Update progress:
-```bash
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":4,"message":"Login saved! Redirecting to X Reply Guy...","progress":100,"complete":true,"redirect":"/x-reply-guy"}'
-```
-
-Print:
+Tell user (this is the ONLY message they see in terminal):
 ```
 ════════════════════════════════════════════════════════════════
- X REPLY GUY READY
-════════════════════════════════════════════════════════════════
 
- Dashboard: http://localhost:3000/x-reply-guy
+  A browser window opened - login to X/Twitter
 
- Your browser session is saved - you won't need to login again!
+  Setup will complete automatically when you're logged in.
+
+  Watch the progress at: http://localhost:3000/setup
 
 ════════════════════════════════════════════════════════════════
 ```
+
+DO NOT wait for user response. The check-x-login.ts script will auto-detect login and complete the setup. The user just needs to login in the browser.
 
 ## Running the Bot
 
