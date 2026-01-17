@@ -54,38 +54,30 @@ Print: `[████████░░░░░░░░░░░░] 40% Brows
 Print:
 ```
 [████████░░░░░░░░░░░░] 40% Opening AdsPower...
-
-AdsPower is opening. You need a FREE account to continue.
-Opening registration page in your browser...
 ```
 
-Open AdsPower app and registration page:
+Open AdsPower app:
 ```bash
 open "/Applications/AdsPower Global.app" 2>/dev/null || open /Applications/AdsPower.app
-sleep 2
-open "https://app.adspower.com/registration"
 ```
 
 Send notification:
 ```bash
-npx tsx ~/bord/lib/notify.ts "Create your FREE AdsPower account" --app bord --subtitle "Registration page opened"
+npx tsx ~/bord/lib/notify.ts "Login to AdsPower with Google" --app bord
 ```
 
 Tell user:
 ```
 ══════════════════════════════════════════════════════════════
- REGISTER FOR FREE
+ LOGIN TO ADSPOWER (FREE)
 ══════════════════════════════════════════════════════════════
 
- A browser window opened to create your AdsPower account.
+ AdsPower app is now open.
 
- 1. Click "Sign up with Google" (fastest)
-    OR enter email + password
+ Click "Login with Google" - it's the fastest way!
+ (Or click Register if you prefer email)
 
- 2. After registering, the AdsPower app will ask you to login
-    Use the same Google account or email
-
- Say "done" when you're logged into AdsPower
+ Say "done" when you're logged in
 ══════════════════════════════════════════════════════════════
 ```
 
