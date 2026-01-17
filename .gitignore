@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Environment - NEVER COMMIT
+.env
+.env.local
+.env.*
+
+# State files with personal data
+state.json
+*.db
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp

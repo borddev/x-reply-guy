@@ -1,0 +1,51 @@
+{
+  "name": "X Reply Guy",
+  "description": "AI-powered Twitter reply bot with analytics dashboard",
+  "version": "1.0.0",
+  "href": "/x-reply-guy",
+  "color": "#1d9bf0",
+  "icon": "x",
+  "author": "BORD Community",
+  "repository": "https://github.com/user/x-reply-guy",
+  "secrets": [
+    {
+      "key": "SUPABASE_URL",
+      "description": "Supabase project URL",
+      "required": true
+    },
+    {
+      "key": "SUPABASE_SERVICE_ROLE_KEY",
+      "description": "Supabase service role key (not anon key)",
+      "required": true
+    },
+    {
+      "key": "ANTHROPIC_API_KEY",
+      "description": "Claude AI API key for generating replies",
+      "required": true
+    },
+    {
+      "key": "ADSPOWER_PROFILE_ID",
+      "description": "AdsPower browser profile ID for X account",
+      "required": true
+    },
+    {
+      "key": "X_USERNAME",
+      "description": "Your X/Twitter username (for display)",
+      "required": false
+    }
+  ],
+  "pages": [
+    {
+      "path": "/x-reply-guy",
+      "name": "Dashboard"
+    },
+    {
+      "path": "/x-reply-guy/school",
+      "name": "School"
+    },
+    {
+      "path": "/x-reply-guy/f4f",
+      "name": "F4F"
+    }
+  ]
+}
