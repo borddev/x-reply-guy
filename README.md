@@ -9,7 +9,7 @@ Twitter/X analytics dashboard.
 Copy and paste into Claude Code:
 
 ```
-Clone https://github.com/borddev/bord to ~/bord then clone https://github.com/borddev/x-reply-guy to ~/bord/apps/x-reply-guy then run npm install in ~/bord
+Clone https://github.com/borddev/bord to ~/bord then clone https://github.com/borddev/x-reply-guy to ~/bord/apps/x-reply-guy then run npm install in ~/bord then cd to ~/bord
 ```
 
 ### Step 2: Setup
