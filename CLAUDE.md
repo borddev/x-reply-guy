@@ -83,46 +83,36 @@ Tell user:
 
 Wait for user to say "done".
 
-### 3. Create Browser Profile
+### 3. Create Browser Profile (Automatic)
 
 Print: `[████████████░░░░░░░░] 60% Creating browser profile...`
 
 Send notification:
 ```bash
-npx tsx ~/bord/lib/notify.ts "Now create a browser profile" --app bord
+npx tsx ~/bord/lib/notify.ts "Creating browser profile..." --app bord
 ```
 
-Tell user:
-```
-══════════════════════════════════════════════════════════════
- CREATE BROWSER PROFILE
-══════════════════════════════════════════════════════════════
-
- In AdsPower:
-
- 1. Click the blue "+ New Profile" button (top right)
- 2. Name it anything (e.g. "Twitter")
- 3. Click "OK" or "Create"
-
- Then:
- 4. Right-click your new profile
- 5. Select "Check ID"
- 6. Copy the ID (looks like: jxxxxxx)
-
- Paste the profile ID here:
-══════════════════════════════════════════════════════════════
+Create profile using AdsPower API:
+```bash
+curl -s "http://127.0.0.1:50325/api/v1/user/create" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"X Reply Guy","group_id":"0","remark":"Created by BORD"}'
 ```
 
-Wait for user to provide profile ID.
+This returns JSON with the profile ID. Extract the `user_id` from the response.
+
+If API fails, check if AdsPower is running and try again.
+
+Print: `Profile created! ID: <user_id>`
 
 ### 4. Save Configuration
 
 Print: `[████████████████░░░░] 80% Saving configuration...`
 
-Create ~/bord/.env.local:
+Create ~/bord/.env.local with the profile ID from step 3:
 ```
 ADSPOWER_API=http://127.0.0.1:50325
-ADSPOWER_PROFILE_ID=<user's ID>
+ADSPOWER_PROFILE_ID=<user_id from step 3>
 ```
 
 Send notification:
@@ -132,16 +122,37 @@ npx tsx ~/bord/lib/notify.ts "Configuration saved!" --app bord
 
 ### 5. Login to Twitter/X
 
+Print: `[████████████████░░░░] 85% Opening browser...`
+
+Open the browser profile automatically:
+```bash
+curl -s "http://127.0.0.1:50325/api/v1/browser/start?user_id=<user_id>"
+```
+
+This launches the browser. Wait 3 seconds for it to open.
+
+Send notification:
+```bash
+npx tsx ~/bord/lib/notify.ts "Browser opened! Login to X" --app bord
+```
+
+Then open Twitter:
+```bash
+# The browser is now controlled by AdsPower
+# Tell user to login
+```
+
 Tell user:
 ```
 ══════════════════════════════════════════════════════════════
  LOGIN TO TWITTER/X
 ══════════════════════════════════════════════════════════════
 
- 1. In AdsPower, click "Open" on your profile
- 2. A browser will open - go to x.com
- 3. Login to your Twitter/X account
- 4. Keep the browser open
+ A browser just opened automatically!
+
+ 1. Go to x.com
+ 2. Login to your Twitter/X account
+ 3. Keep the browser open
 
  Say "done" when logged in
 ══════════════════════════════════════════════════════════════
