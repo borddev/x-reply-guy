@@ -1,6 +1,6 @@
 # X Reply Guy
 
-Twitter/X engagement analytics and content assistant.
+Twitter/X engagement analytics dashboard.
 
 ## Install
 
@@ -8,7 +8,7 @@ Twitter/X engagement analytics and content assistant.
 2. Copy the prompt below and paste:
 
 ```
-You are installing X Reply Guy, a Twitter/X engagement analytics dashboard and content assistant.
+You are installing X Reply Guy, a Twitter/X analytics dashboard.
 
 STEP 1: SHOW WELCOME
 Print this exactly:
@@ -23,7 +23,6 @@ Print this exactly:
 │    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝                          │
 │                                                              │
 │    Installing: X Reply Guy                                   │
-│    Twitter/X engagement analytics                            │
 │                                                              │
 └──────────────────────────────────────────────────────────────┘
 
@@ -34,169 +33,41 @@ Run: node -v
 
 STEP 3: INSTALL NOTIFICATIONS
 Run: brew install terminal-notifier
-Print:
-┌─────────────────────────────────────────────────────────────┐
-│  A popup will appear asking to allow notifications.         │
-│  Click "Allow" to enable BORD notifications.                │
-│                                                             │
-│  ┌─────────────────────────────────────────┐                │
-│  │  "terminal-notifier" wants to send      │                │
-│  │  you notifications.                     │                │
-│  │                                         │                │
-│  │  [Don't Allow]     [Allow] <── CLICK    │                │
-│  └─────────────────────────────────────────┘                │
-└─────────────────────────────────────────────────────────────┘
+Tell user: "Click Allow when the notification permission popup appears."
 
-Ask user to confirm they clicked Allow.
-
-STEP 4: INSTALL ADSPOWER
-Check if AdsPower is installed: ls /Applications/AdsPower.app 2>/dev/null
-- If installed: Skip to STEP 5
-- If not: Run this to download:
-  curl -L "https://www.adspower.com/download/macos" -o ~/Downloads/AdsPower.dmg
-  open ~/Downloads/AdsPower.dmg
-
-Print:
-┌─────────────────────────────────────────────────────────────┐
-│  INSTALL ADSPOWER                                           │
-│                                                             │
-│  A DMG window opened. Drag AdsPower to Applications:        │
-│                                                             │
-│  ┌─────────────────────────────────────────┐                │
-│  │                                         │                │
-│  │   [AdsPower]  ───────►  [Applications]  │                │
-│  │      📦         drag        📁          │                │
-│  │                                         │                │
-│  └─────────────────────────────────────────┘                │
-│                                                             │
-│  Then open AdsPower from Applications.                      │
-└─────────────────────────────────────────────────────────────┘
-
-Wait for user to confirm AdsPower is installed.
-
-STEP 5: REGISTER ADSPOWER ACCOUNT
-Print:
-┌─────────────────────────────────────────────────────────────┐
-│  CREATE ADSPOWER ACCOUNT                                    │
-│                                                             │
-│  In the AdsPower window, click "Register":                  │
-│                                                             │
-│  ┌─────────────────────────────────────────┐                │
-│  │           AdsPower Login                │                │
-│  │                                         │                │
-│  │  Email: [___________________]           │                │
-│  │  Password: [________________]           │                │
-│  │                                         │                │
-│  │  [Login]                                │                │
-│  │                                         │                │
-│  │  Don't have an account? Register <──    │                │
-│  └─────────────────────────────────────────┘                │
-│                                                             │
-│  Fill in email & password, then click Register.             │
-│  Use a REAL email - you'll need to verify it.               │
-└─────────────────────────────────────────────────────────────┘
-
-Wait for user to confirm registration complete.
-
-STEP 6: CREATE BROWSER PROFILE
-Print:
-┌─────────────────────────────────────────────────────────────┐
-│  CREATE BROWSER PROFILE                                     │
-│                                                             │
-│  In AdsPower, click "New Profile":                          │
-│                                                             │
-│  ┌─────────────────────────────────────────┐                │
-│  │  AdsPower                    [+New Profile]  <── CLICK   │
-│  │  ─────────────────────────────────────────────           │
-│  │  My Profiles (0)                                         │
-│  │                                                          │
-│  │  No profiles yet                                         │
-│  └─────────────────────────────────────────┘                │
-│                                                             │
-│  Name it "X Profile" and click OK to create.                    │
-└─────────────────────────────────────────────────────────────┘
-
-Wait for user to confirm profile created.
-
-STEP 7: GET PROFILE ID
-Print:
-┌─────────────────────────────────────────────────────────────┐
-│  GET PROFILE ID                                             │
-│                                                             │
-│  Right-click your profile and select "Check ID":            │
-│                                                             │
-│  ┌─────────────────────────────────────────┐                │
-│  │  My Profiles                                             │
-│  │  ─────────────────────────────────────────────           │
-│  │  X Profile                   [Open] [Settings]               │
-│  │    └─ Right-click here ─────────┐                        │
-│  │                                 │ Open                   │
-│  │                                 │ Check ID  <── CLICK    │
-│  │                                 │ Delete                 │
-│  └─────────────────────────────────────────┘                │
-│                                                             │
-│  Copy the ID that appears (looks like: jxxxxxx)             │
-└─────────────────────────────────────────────────────────────┘
-
-Ask user to paste the profile ID. Save it as ADSPOWER_PROFILE_ID.
-
-STEP 8: LOGIN TO X
-Print:
-┌─────────────────────────────────────────────────────────────┐
-│  LOGIN TO X                                                 │
-│                                                             │
-│  Click "Open" on your profile to launch the browser.        │
-│  Go to x.com and log in to your X account.                  │
-│  Keep the browser open - the app will use it.               │
-└─────────────────────────────────────────────────────────────┘
-
-Wait for user to confirm they're logged in.
-
-STEP 9: INSTALL BORD
+STEP 4: INSTALL BORD
 Check if ~/bord exists: ls ~/bord 2>/dev/null
-- If exists: Ask "Use existing ~/bord? (yes/no)"
+- If exists: Continue
 - If not: Run: git clone https://github.com/borddev/bord ~/bord
-Print: [████████░░░░░░░░░░░░] 40% - BORD installed
+Print: [████████░░░░░░░░░░░░] 40%
 
-STEP 10: INSTALL X REPLY GUY
+STEP 5: INSTALL X REPLY GUY
 Run: git clone https://github.com/borddev/x-reply-guy ~/bord/apps/x-reply-guy
-Print: [████████████░░░░░░░░] 60% - X Reply Guy installed
+Print: [████████████░░░░░░░░] 60%
 
-STEP 11: INSTALL DEPENDENCIES
+STEP 6: INSTALL DEPENDENCIES
 Run: cd ~/bord && npm install
-Print: [████████████████░░░░] 80% - Dependencies installed
+Print: [████████████████████] 100%
 
-STEP 12: CONFIGURE ENVIRONMENT
-Create ~/bord/.env.local with:
-
-# AdsPower
-ADSPOWER_API=http://127.0.0.1:50325
-ADSPOWER_PROFILE_ID=<id from step 7>
-
-Print: [████████████████████] 100% - Setup complete!
-
-STEP 13: COMPLETE
+STEP 7: COMPLETE
 Print:
 ════════════════════════════════════════════════════════════════
  ✓ X REPLY GUY INSTALLED
 ════════════════════════════════════════════════════════════════
 
  Location: ~/bord/apps/x-reply-guy
- Database: ~/bord/data/x-reply-guy/replies.db (SQLite)
 
- QUICK START:
- 1. Make sure AdsPower is running with X logged in
- 2. In a new terminal: cd ~/bord && claude --dangerously-skip-permissions
- 3. Say "start x-reply-guy"
+ NEXT STEPS:
+ Open a new terminal, then:
+   cd ~/bord
+   claude --dangerously-skip-permissions
 
- DASHBOARD:
- Say "start the dev server" to view analytics at localhost:3000
+ Say "setup x-reply-guy" to complete configuration.
 
 ════════════════════════════════════════════════════════════════
 
-STEP 14: OPEN NEW TERMINAL
-Run: osascript -e 'tell application "Terminal" to do script "cd ~/bord && echo Welcome to BORD! && echo && echo Run: claude --dangerously-skip-permissions"'
-Tell user: "New terminal opened. Run claude --dangerously-skip-permissions there."
+STEP 8: OPEN NEW TERMINAL
+Run: osascript -e 'tell application "Terminal" to do script "cd ~/bord && echo Ready! Run: claude --dangerously-skip-permissions"'
 ```
 
 ## Links
