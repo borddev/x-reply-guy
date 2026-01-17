@@ -1,69 +1,77 @@
 # X Reply Guy
 
-Twitter/X engagement analytics dashboard with content tools.
+Twitter/X analytics dashboard.
 
-## Setup Command
+## Setup Steps
 
-When user says "setup x-reply-guy", guide them through browser setup:
+When asked to setup x-reply-guy, follow these steps:
 
-1. **Check if AdsPower is installed**
-   ```bash
-   ls /Applications/AdsPower.app 2>/dev/null
-   ```
-   If not installed, tell user to download from https://www.adspower.com/download
+### 1. Install browser tool
 
-2. **Open AdsPower**
-   ```bash
-   open /Applications/AdsPower.app
-   ```
+Check if AdsPower is installed:
+```bash
+ls /Applications/AdsPower.app 2>/dev/null
+```
 
-3. **Guide user to create account** (if new)
-   - Click "Register" in AdsPower
-   - Enter email and password
-   - Verify email
+If not installed, tell user:
+"Download AdsPower from https://www.adspower.com/download and install it, then say 'continue'"
 
-4. **Create browser profile**
-   - Click "New Profile" button
-   - Name it anything (e.g. "Main")
-   - Click OK
+If installed, continue.
 
-5. **Get profile ID**
-   - Right-click the profile
-   - Select "Check ID"
-   - Copy the ID (looks like: jxxxxxx)
+### 2. Open AdsPower
 
-6. **Save to .env.local**
-   Create ~/bord/.env.local with:
-   ```
-   ADSPOWER_API=http://127.0.0.1:50325
-   ADSPOWER_PROFILE_ID=<the ID from step 5>
-   ```
+```bash
+open /Applications/AdsPower.app
+```
 
-7. **Login to X**
-   - Click "Open" on the profile in AdsPower
-   - Go to x.com and login
-   - Keep browser open
+Tell user: "AdsPower is opening. If you're new, click Register to create an account. Once logged in, say 'continue'"
 
-8. **Done!**
-   Print: "Setup complete! Say 'start the dev server' to view dashboard."
+### 3. Create browser profile
 
-## Running
+Tell user:
+"In AdsPower:
+1. Click 'New Profile' button
+2. Name it anything (e.g. 'Main')
+3. Click OK
+4. Then say 'continue'"
 
-- **Dashboard**: `npm run dev` then open localhost:3000/x-reply-guy
-- **View analytics**: Main page shows engagement metrics
-- **School**: Rate content to improve suggestions
+### 4. Get profile ID
+
+Tell user:
+"Right-click your profile → Check ID → Copy the ID (looks like: jxxxxxx)
+Paste the ID here:"
+
+Save the ID they provide.
+
+### 5. Create env file
+
+Create ~/bord/.env.local with:
+```
+ADSPOWER_API=http://127.0.0.1:50325
+ADSPOWER_PROFILE_ID=<the ID from step 4>
+```
+
+### 6. Login to X
+
+Tell user:
+"In AdsPower, click 'Open' on your profile to launch the browser.
+Go to x.com and log in to your X account.
+Keep the browser open.
+Say 'continue' when logged in."
+
+### 7. Start dashboard
+
+```bash
+cd ~/bord && npm run dev
+```
+
+Then open browser:
+```bash
+open http://localhost:3000/x-reply-guy
+```
+
+Tell user: "Setup complete! Dashboard is now open at localhost:3000/x-reply-guy"
 
 ## Database
 
 SQLite at `~/bord/data/x-reply-guy/replies.db` - created automatically.
-
-## Files
-
-```
-x-reply-guy/
-├── app/           # Dashboard pages
-├── api/           # API routes
-├── lib/db.ts      # SQLite database
-├── public/        # Icons
-└── CLAUDE.md      # This file
-```
