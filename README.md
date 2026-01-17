@@ -1,6 +1,6 @@
 # X Reply Guy
 
-AI-powered Twitter/X reply bot.
+Twitter/X engagement analytics and content assistant.
 
 ## Install
 
@@ -8,7 +8,7 @@ AI-powered Twitter/X reply bot.
 2. Copy the prompt below and paste:
 
 ```
-You are installing X Reply Guy, an AI-powered Twitter/X reply bot.
+You are installing X Reply Guy, a Twitter/X engagement analytics dashboard and content assistant.
 
 STEP 1: SHOW WELCOME
 Print this exactly:
@@ -23,7 +23,7 @@ Print this exactly:
 │    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝                          │
 │                                                              │
 │    Installing: X Reply Guy                                   │
-│    AI-powered Twitter/X reply bot                            │
+│    Twitter/X engagement analytics                            │
 │                                                              │
 └──────────────────────────────────────────────────────────────┘
 
@@ -113,7 +113,7 @@ Print:
 │  │  No profiles yet                                         │
 │  └─────────────────────────────────────────┘                │
 │                                                             │
-│  Name it "X Bot" and click OK to create.                    │
+│  Name it "X Profile" and click OK to create.                    │
 └─────────────────────────────────────────────────────────────┘
 
 Wait for user to confirm profile created.
@@ -128,7 +128,7 @@ Print:
 │  ┌─────────────────────────────────────────┐                │
 │  │  My Profiles                                             │
 │  │  ─────────────────────────────────────────────           │
-│  │  X Bot                   [Open] [Settings]               │
+│  │  X Profile                   [Open] [Settings]               │
 │  │    └─ Right-click here ─────────┐                        │
 │  │                                 │ Open                   │
 │  │                                 │ Check ID  <── CLICK    │
@@ -147,7 +147,7 @@ Print:
 │                                                             │
 │  Click "Open" on your profile to launch the browser.        │
 │  Go to x.com and log in to your X account.                  │
-│  Keep the browser open - the bot will use it.               │
+│  Keep the browser open - the app will use it.               │
 └─────────────────────────────────────────────────────────────┘
 
 Wait for user to confirm they're logged in.
@@ -187,7 +187,7 @@ Print:
  QUICK START:
  1. Make sure AdsPower is running with X logged in
  2. In a new terminal: cd ~/bord && claude --dangerously-skip-permissions
- 3. Say "start the reply bot"
+ 3. Say "start x-reply-guy"
 
  DASHBOARD:
  Say "start the dev server" to view analytics at localhost:3000
