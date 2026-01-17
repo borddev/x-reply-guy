@@ -4,19 +4,22 @@ Twitter/X analytics dashboard.
 
 ## Setup Steps
 
-When asked to setup x-reply-guy, follow these steps:
+When asked to setup x-reply-guy, follow ALL steps automatically:
 
-### 1. Install browser tool
+### 1. Install AdsPower (if needed)
 
-Check if AdsPower is installed:
 ```bash
 ls /Applications/AdsPower.app 2>/dev/null
 ```
 
-If not installed, tell user:
-"Download AdsPower from https://www.adspower.com/download and install it, then say 'continue'"
-
-If installed, continue.
+If not installed, download and install it:
+```bash
+curl -L "https://api.adspower.net/download?platform=mac" -o /tmp/AdsPower.dmg
+hdiutil attach /tmp/AdsPower.dmg -quiet
+cp -R "/Volumes/AdsPower/AdsPower.app" /Applications/
+hdiutil detach "/Volumes/AdsPower" -quiet
+rm /tmp/AdsPower.dmg
+```
 
 ### 2. Open AdsPower
 
@@ -24,53 +27,34 @@ If installed, continue.
 open /Applications/AdsPower.app
 ```
 
-Tell user: "AdsPower is opening. If you're new, click Register to create an account. Once logged in, say 'continue'"
+Tell user: "AdsPower is opening. Create an account or login, then create a browser profile. Once you have a profile, right-click it → Check ID → paste the ID here:"
 
-### 3. Create browser profile
+Wait for user to provide profile ID.
 
-Tell user:
-"In AdsPower:
-1. Click 'New Profile' button
-2. Name it anything (e.g. 'Main')
-3. Click OK
-4. Then say 'continue'"
+### 3. Create env file
 
-### 4. Get profile ID
-
-Tell user:
-"Right-click your profile → Check ID → Copy the ID (looks like: jxxxxxx)
-Paste the ID here:"
-
-Save the ID they provide.
-
-### 5. Create env file
-
-Create ~/bord/.env.local with:
+Create ~/bord/.env.local with the profile ID:
 ```
 ADSPOWER_API=http://127.0.0.1:50325
-ADSPOWER_PROFILE_ID=<the ID from step 4>
+ADSPOWER_PROFILE_ID=<the ID user provided>
 ```
 
-### 6. Login to X
+### 4. Login to X
 
-Tell user:
-"In AdsPower, click 'Open' on your profile to launch the browser.
-Go to x.com and log in to your X account.
-Keep the browser open.
-Say 'continue' when logged in."
+Tell user: "In AdsPower, click 'Open' on your profile. Login to x.com and say 'done' when ready."
 
-### 7. Start dashboard
+### 5. Start dashboard
 
 ```bash
-cd ~/bord && npm run dev
+cd ~/bord && npm run dev &
 ```
 
-Then open browser:
+Wait 3 seconds then:
 ```bash
 open http://localhost:3000/x-reply-guy
 ```
 
-Tell user: "Setup complete! Dashboard is now open at localhost:3000/x-reply-guy"
+Tell user: "Setup complete! Dashboard is open."
 
 ## Database
 
