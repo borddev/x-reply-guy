@@ -4,22 +4,41 @@ Twitter/X analytics dashboard.
 
 ## Setup Steps
 
-When asked to setup x-reply-guy, follow ALL steps automatically:
+When asked to setup x-reply-guy, FIRST print this welcome banner:
 
-### 1. Install AdsPower (if needed)
+```
+┌──────────────────────────────────────────────────────────────┐
+│                                                              │
+│    ██████╗  ██████╗ ██████╗ ██████╗                          │
+│    ██╔══██╗██╔═══██╗██╔══██╗██╔══██╗                         │
+│    ██████╔╝██║   ██║██████╔╝██║  ██║                         │
+│    ██╔══██╗██║   ██║██╔══██╗██║  ██║                         │
+│    ██████╔╝╚██████╔╝██║  ██║██████╔╝                         │
+│    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝                          │
+│                                                              │
+│    Setting up: X Reply Guy                                   │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+```
+
+Then follow these steps, printing progress after each:
+
+### 1. Install AdsPower
+
+Print: `[████░░░░░░░░░░░░░░░░] 20% Installing browser tool...`
 
 ```bash
 ls /Applications/AdsPower.app 2>/dev/null
 ```
 
-If not installed, download and install it:
+If not installed, download and install:
 ```bash
-curl -L "https://api.adspower.net/download?platform=mac" -o /tmp/AdsPower.dmg
-hdiutil attach /tmp/AdsPower.dmg -quiet
-cp -R "/Volumes/AdsPower/AdsPower.app" /Applications/
-hdiutil detach "/Volumes/AdsPower" -quiet
-rm /tmp/AdsPower.dmg
+curl -L "https://www.adspower.com/download" -o /tmp/adspower_page.html
 ```
+Then find the macOS ARM64 or Intel download link and download the DMG.
+Mount it, copy to /Applications, unmount.
+
+Print: `[████████░░░░░░░░░░░░] 40% Browser tool installed`
 
 ### 2. Open AdsPower
 
@@ -27,35 +46,50 @@ rm /tmp/AdsPower.dmg
 open /Applications/AdsPower.app
 ```
 
-Tell user: "AdsPower is opening. Create an account or login, then create a browser profile. Once you have a profile, right-click it → Check ID → paste the ID here:"
+Print: `[████████████░░░░░░░░] 60% Browser tool opened`
+
+Tell user:
+```
+AdsPower is opening. Please:
+1. Create account or login
+2. Click "New Profile" → name it → OK
+3. Right-click profile → "Check ID"
+4. Paste the ID here:
+```
 
 Wait for user to provide profile ID.
 
 ### 3. Create env file
 
-Create ~/bord/.env.local with the profile ID:
+Print: `[████████████████░░░░] 80% Saving configuration...`
+
+Create ~/bord/.env.local:
 ```
 ADSPOWER_API=http://127.0.0.1:50325
-ADSPOWER_PROFILE_ID=<the ID user provided>
+ADSPOWER_PROFILE_ID=<user's ID>
 ```
 
 ### 4. Login to X
 
-Tell user: "In AdsPower, click 'Open' on your profile. Login to x.com and say 'done' when ready."
+Tell user: "Click 'Open' on your AdsPower profile, login to x.com, then say 'done'"
 
 ### 5. Start dashboard
 
+Print: `[████████████████████] 100% Starting dashboard...`
+
 ```bash
 cd ~/bord && npm run dev &
-```
-
-Wait 3 seconds then:
-```bash
+sleep 3
 open http://localhost:3000/x-reply-guy
 ```
 
-Tell user: "Setup complete! Dashboard is open."
+Print:
+```
+════════════════════════════════════════════════════════════════
+ ✓ X REPLY GUY READY
+════════════════════════════════════════════════════════════════
 
-## Database
+ Dashboard: http://localhost:3000/x-reply-guy
 
-SQLite at `~/bord/data/x-reply-guy/replies.db` - created automatically.
+════════════════════════════════════════════════════════════════
+```
