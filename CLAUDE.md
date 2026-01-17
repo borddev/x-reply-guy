@@ -24,9 +24,18 @@ Print:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-### 2. Install Browser
+### 2. Install App Pages
 
-Print: `[████████░░░░░░░░░░░░] 40% Installing BORD Browser...`
+Print: `[████████░░░░░░░░░░░░] 40% Installing X Reply Guy...`
+
+Copy app pages and API routes to BORD dashboard:
+```bash
+mkdir -p ~/bord/app/x-reply-guy/api && cp -r ~/bord/apps/x-reply-guy/app/* ~/bord/app/x-reply-guy/ && cp -r ~/bord/apps/x-reply-guy/api/* ~/bord/app/x-reply-guy/api/
+```
+
+### 3. Install Browser
+
+Print: `[████████████░░░░░░░░] 50% Installing BORD Browser...`
 
 Install Playwright browsers:
 ```bash
@@ -38,13 +47,13 @@ Send notification:
 npx tsx ~/bord/lib/notify.ts "Browser installed!" --app bord
 ```
 
-Print: `[████████████░░░░░░░░] 60% Browser ready`
+Print: `[████████████████░░░░] 70% Browser ready`
 
-### 3. Launch Browser & Login
+### 4. Launch Browser & Login
 
 Print:
 ```
-[████████████░░░░░░░░] 60% Launching browser...
+[████████████████░░░░] 70% Launching browser...
 
 BORD Browser uses stealth Playwright - it's FREE and open source.
 Your session is saved in ~/bord/data/browser-profiles/x-reply-guy/
@@ -80,9 +89,9 @@ Tell user:
 
 Wait for user to say "done".
 
-### 4. Verify Login
+### 5. Verify Login
 
-Print: `[████████████████░░░░] 80% Verifying login...`
+Print: `[██████████████████░░] 85% Verifying login...`
 
 The browser should now be logged into X. The session is automatically saved.
 
@@ -91,7 +100,7 @@ Send notification:
 npx tsx ~/bord/lib/notify.ts "Login verified!" --app bord
 ```
 
-### 5. Start Dashboard
+### 6. Start Dashboard
 
 Print: `[████████████████████] 100% Starting dashboard...`
 
