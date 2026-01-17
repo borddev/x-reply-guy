@@ -27,127 +27,174 @@ Print this exactly:
 │                                                              │
 └──────────────────────────────────────────────────────────────┘
 
-STEP 2: PREREQUISITES CHECK
-Before installing, verify each prerequisite. Ask the user about each one.
-
-2.1 Node.js
+STEP 2: CHECK NODE.JS
 Run: node -v
 - If v18+: Continue
 - If not installed: Tell user to install from https://nodejs.org
 
-2.2 AdsPower
-Ask: "Do you have AdsPower installed and running?"
-- Download: https://www.adspower.com/download
-- Test with: curl -s http://127.0.0.1:50325/status
-
-2.3 Supabase
-Ask: "Do you have a Supabase project?"
-- Create: https://supabase.com/dashboard
-- Get: Project URL and Service Role Key (Settings > API)
-Ask for SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY. Save for later.
-
-2.4 Anthropic API Key
-Ask: "Do you have an Anthropic API key?"
-- Get one: https://console.anthropic.com/settings/keys
-Ask for ANTHROPIC_API_KEY. Save for later.
-
-2.5 X Premium (optional)
-Ask: "Do you have X Premium?" - needed for analytics but optional.
-
-STEP 3: SHOW CHECKLIST
+STEP 3: INSTALL NOTIFICATIONS
+Run: brew install terminal-notifier
 Print:
-PREREQUISITES
-═════════════
-✓ Node.js
-✓ AdsPower
-✓ Supabase
-✓ Anthropic API key
-○ X Premium (optional)
+┌─────────────────────────────────────────────────────────────┐
+│  A popup will appear asking to allow notifications.         │
+│  Click "Allow" to enable BORD notifications.                │
+│                                                             │
+│  ┌─────────────────────────────────────────┐                │
+│  │  "terminal-notifier" wants to send      │                │
+│  │  you notifications.                     │                │
+│  │                                         │                │
+│  │  [Don't Allow]     [Allow] <── CLICK    │                │
+│  └─────────────────────────────────────────┘                │
+└─────────────────────────────────────────────────────────────┘
 
-Starting installation...
+Ask user to confirm they clicked Allow.
 
-STEP 4: INSTALL BORD
+STEP 4: INSTALL ADSPOWER
+Check if AdsPower is installed: ls /Applications/AdsPower.app 2>/dev/null
+- If installed: Skip to STEP 5
+- If not: Run this to download:
+  curl -L "https://www.adspower.com/download/macos" -o ~/Downloads/AdsPower.dmg
+  open ~/Downloads/AdsPower.dmg
+
+Print:
+┌─────────────────────────────────────────────────────────────┐
+│  INSTALL ADSPOWER                                           │
+│                                                             │
+│  A DMG window opened. Drag AdsPower to Applications:        │
+│                                                             │
+│  ┌─────────────────────────────────────────┐                │
+│  │                                         │                │
+│  │   [AdsPower]  ───────►  [Applications]  │                │
+│  │      📦         drag        📁          │                │
+│  │                                         │                │
+│  └─────────────────────────────────────────┘                │
+│                                                             │
+│  Then open AdsPower from Applications.                      │
+└─────────────────────────────────────────────────────────────┘
+
+Wait for user to confirm AdsPower is installed.
+
+STEP 5: REGISTER ADSPOWER ACCOUNT
+Print:
+┌─────────────────────────────────────────────────────────────┐
+│  CREATE ADSPOWER ACCOUNT                                    │
+│                                                             │
+│  In the AdsPower window, click "Register":                  │
+│                                                             │
+│  ┌─────────────────────────────────────────┐                │
+│  │           AdsPower Login                │                │
+│  │                                         │                │
+│  │  Email: [___________________]           │                │
+│  │  Password: [________________]           │                │
+│  │                                         │                │
+│  │  [Login]                                │                │
+│  │                                         │                │
+│  │  Don't have an account? Register <──    │                │
+│  └─────────────────────────────────────────┘                │
+│                                                             │
+│  Fill in email & password, then click Register.             │
+│  Use a REAL email - you'll need to verify it.               │
+└─────────────────────────────────────────────────────────────┘
+
+Wait for user to confirm registration complete.
+
+STEP 6: CREATE BROWSER PROFILE
+Print:
+┌─────────────────────────────────────────────────────────────┐
+│  CREATE BROWSER PROFILE                                     │
+│                                                             │
+│  In AdsPower, click "New Profile":                          │
+│                                                             │
+│  ┌─────────────────────────────────────────┐                │
+│  │  AdsPower                    [+New Profile]  <── CLICK   │
+│  │  ─────────────────────────────────────────────           │
+│  │  My Profiles (0)                                         │
+│  │                                                          │
+│  │  No profiles yet                                         │
+│  └─────────────────────────────────────────┘                │
+│                                                             │
+│  Name it "X Bot" and click OK to create.                    │
+└─────────────────────────────────────────────────────────────┘
+
+Wait for user to confirm profile created.
+
+STEP 7: GET PROFILE ID
+Print:
+┌─────────────────────────────────────────────────────────────┐
+│  GET PROFILE ID                                             │
+│                                                             │
+│  Right-click your profile and select "Check ID":            │
+│                                                             │
+│  ┌─────────────────────────────────────────┐                │
+│  │  My Profiles                                             │
+│  │  ─────────────────────────────────────────────           │
+│  │  X Bot                   [Open] [Settings]               │
+│  │    └─ Right-click here ─────────┐                        │
+│  │                                 │ Open                   │
+│  │                                 │ Check ID  <── CLICK    │
+│  │                                 │ Delete                 │
+│  └─────────────────────────────────────────┘                │
+│                                                             │
+│  Copy the ID that appears (looks like: jxxxxxx)             │
+└─────────────────────────────────────────────────────────────┘
+
+Ask user to paste the profile ID. Save it as ADSPOWER_PROFILE_ID.
+
+STEP 8: LOGIN TO X
+Print:
+┌─────────────────────────────────────────────────────────────┐
+│  LOGIN TO X                                                 │
+│                                                             │
+│  Click "Open" on your profile to launch the browser.        │
+│  Go to x.com and log in to your X account.                  │
+│  Keep the browser open - the bot will use it.               │
+└─────────────────────────────────────────────────────────────┘
+
+Wait for user to confirm they're logged in.
+
+STEP 9: INSTALL BORD
 Check if ~/bord exists: ls ~/bord 2>/dev/null
 - If exists: Ask "Use existing ~/bord? (yes/no)"
 - If not: Run: git clone https://github.com/borddev/bord ~/bord
 Print: [████████░░░░░░░░░░░░] 40% - BORD installed
 
-STEP 5: INSTALL X REPLY GUY
+STEP 10: INSTALL X REPLY GUY
 Run: git clone https://github.com/borddev/x-reply-guy ~/bord/apps/x-reply-guy
 Print: [████████████░░░░░░░░] 60% - X Reply Guy installed
 
-STEP 6: INSTALL DEPENDENCIES
+STEP 11: INSTALL DEPENDENCIES
 Run: cd ~/bord && npm install
 Print: [████████████████░░░░] 80% - Dependencies installed
 
-STEP 7: CONFIGURE ENVIRONMENT
-Create ~/bord/.env.local with the keys from Step 2:
-
-# Supabase
-SUPABASE_URL=<url from step 2.3>
-SUPABASE_SERVICE_ROLE_KEY=<key from step 2.3>
-
-# Anthropic
-ANTHROPIC_API_KEY=<key from step 2.4>
+STEP 12: CONFIGURE ENVIRONMENT
+Create ~/bord/.env.local with:
 
 # AdsPower
 ADSPOWER_API=http://127.0.0.1:50325
+ADSPOWER_PROFILE_ID=<id from step 7>
 
-STEP 8: SETUP DATABASE
-Tell user to go to Supabase SQL Editor and run:
-
-CREATE TABLE IF NOT EXISTS x_replies (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  post_id TEXT UNIQUE,
-  reply_text TEXT,
-  reply_url TEXT,
-  tweet_url TEXT,
-  tweet_text TEXT,
-  strategy TEXT,
-  source TEXT DEFAULT 'bot',
-  impressions INTEGER DEFAULT 0,
-  likes INTEGER DEFAULT 0,
-  engagements INTEGER DEFAULT 0,
-  bookmarks INTEGER DEFAULT 0,
-  replies INTEGER DEFAULT 0,
-  reposts INTEGER DEFAULT 0,
-  profile_visits INTEGER DEFAULT 0,
-  original_views INTEGER,
-  original_posted_at TIMESTAMPTZ,
-  response_time_mins INTEGER,
-  posted_at TIMESTAMPTZ,
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  school_rating TEXT,
-  school_comment TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_replies_posted ON x_replies(posted_at DESC);
-CREATE INDEX IF NOT EXISTS idx_replies_impressions ON x_replies(impressions DESC);
-
-Ask user to confirm when done.
 Print: [████████████████████] 100% - Setup complete!
 
-STEP 9: COMPLETE
+STEP 13: COMPLETE
 Print:
 ════════════════════════════════════════════════════════════════
- ✓ INSTALLATION COMPLETE
+ ✓ X REPLY GUY INSTALLED
 ════════════════════════════════════════════════════════════════
 
  Location: ~/bord/apps/x-reply-guy
+ Database: ~/bord/data/x-reply-guy/replies.db (SQLite)
 
- NEXT STEPS:
- 1. A new terminal will open at ~/bord
- 2. Run: claude --dangerously-skip-permissions
- 3. Say "start the dev server"
+ QUICK START:
+ 1. Make sure AdsPower is running with X logged in
+ 2. In a new terminal: cd ~/bord && claude --dangerously-skip-permissions
+ 3. Say "start the reply bot"
 
- MANUAL SETUP:
- • Open AdsPower
- • Create browser profile for X account
- • Log into X in that profile
- • Note the profile ID
+ DASHBOARD:
+ Say "start the dev server" to view analytics at localhost:3000
 
 ════════════════════════════════════════════════════════════════
 
-STEP 10: OPEN NEW TERMINAL
+STEP 14: OPEN NEW TERMINAL
 Run: osascript -e 'tell application "Terminal" to do script "cd ~/bord && echo Welcome to BORD! && echo && echo Run: claude --dangerously-skip-permissions"'
 Tell user: "New terminal opened. Run claude --dangerously-skip-permissions there."
 ```

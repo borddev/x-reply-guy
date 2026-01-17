@@ -1,74 +1,35 @@
 # X Reply Guy - Claude Code Instructions
 
-You are setting up X Reply Guy, an AI-powered Twitter/X reply bot.
+You are running X Reply Guy, an AI-powered Twitter/X reply bot.
 
 ## What is X Reply Guy?
 
 An autonomous bot that:
 1. Monitors viral tweets on X/Twitter
-2. Generates witty, engaging replies using Claude AI
+2. Generates witty, engaging replies using Claude AI (that's you!)
 3. Posts replies to gain impressions and followers
 4. Tracks performance with analytics dashboard
 
 ## Prerequisites
 
-- BORD platform installed (see PROMPT.md)
-- Supabase account (free tier works)
-- Anthropic API key
-- AdsPower browser automation app
+- BORD platform installed at ~/bord
+- AdsPower with X account logged in
 - X Premium account (for analytics)
 
-## Database Setup (Supabase)
+## Database
 
-Create these tables in your Supabase project:
+Uses SQLite stored at: `~/bord/data/x-reply-guy/replies.db`
 
-```sql
--- Replies table
-CREATE TABLE x_replies (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  post_id TEXT UNIQUE,
-  reply_text TEXT,
-  reply_url TEXT,
-  tweet_url TEXT,
-  tweet_text TEXT,
-  strategy TEXT,
-  source TEXT DEFAULT 'bot',
-  impressions INTEGER DEFAULT 0,
-  likes INTEGER DEFAULT 0,
-  engagements INTEGER DEFAULT 0,
-  bookmarks INTEGER DEFAULT 0,
-  replies INTEGER DEFAULT 0,
-  reposts INTEGER DEFAULT 0,
-  profile_visits INTEGER DEFAULT 0,
-  original_views INTEGER,
-  original_posted_at TIMESTAMPTZ,
-  response_time_mins INTEGER,
-  posted_at TIMESTAMPTZ,
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  school_rating TEXT,
-  school_comment TEXT
-);
-
--- Index for faster queries
-CREATE INDEX idx_replies_posted ON x_replies(posted_at DESC);
-CREATE INDEX idx_replies_impressions ON x_replies(impressions DESC);
-```
+No external database setup required - it's created automatically.
 
 ## Environment Variables
 
-Add these to BORD's `.env.local`:
+Add these to `~/bord/.env.local`:
 
 ```env
-# Supabase
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=eyJ...
-
-# Claude AI
-ANTHROPIC_API_KEY=sk-ant-...
-
 # AdsPower
 ADSPOWER_API=http://127.0.0.1:50325
-ADSPOWER_PROFILE_ID=abc123
+ADSPOWER_PROFILE_ID=jxxxxxx
 
 # Optional
 X_USERNAME=your_handle
@@ -102,35 +63,33 @@ x-reply-guy/
 │   ├── school/page.tsx    # Training school
 │   └── f4f/page.tsx       # Follow 4 Follow
 ├── api/                   # API routes
-├── automations/           # Bot scripts
-│   ├── continuous-reply-bot.js
-│   └── follow4follow-bot.js
+├── lib/
+│   └── db.ts             # SQLite database
+├── public/
+│   └── icon.png          # X logo for notifications
 ├── config.json            # App metadata
-├── PROMPT.md             # Install prompt
 └── CLAUDE.md             # This file
 ```
 
 ## Running the Bot
 
-```bash
-# Start the reply bot
-node automations/continuous-reply-bot.js
+Say "start the reply bot" and I will:
+1. Check AdsPower is running
+2. Open the browser profile
+3. Navigate to X and start replying
 
-# Start the F4F bot
-node automations/follow4follow-bot.js
-```
+## Dashboard
 
-## Dashboard Features
+Say "start the dev server" to view analytics at localhost:3000/x-reply-guy
 
-- **Main Page** `/x-reply-guy` - View all replies, impressions, VPM metrics
-- **School** `/x-reply-guy/school` - Rate replies to train the AI
-- **F4F** `/x-reply-guy/f4f` - Track follow-for-follow stats
+## Notifications
 
-## Metrics
+The bot sends macOS notifications for:
+- Reply posted successfully
+- Error occurred
+- Session stats
 
-- **Impressions** - Total views on replies
-- **VPM** - Views per minute (capped at 10h)
-- **Response Time** - How fast we replied to the original
+Uses the X logo from `public/icon.png`.
 
 ---
 

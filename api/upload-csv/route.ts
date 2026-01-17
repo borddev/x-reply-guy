@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-);
+import { insertReply } from '../../lib/db';
 
 function parseCSVLine(line: string): string[] {
   const result: string[] = [];
@@ -59,12 +54,6 @@ function parseDate(dateStr: string): Date | null {
 
 export async function POST(request: NextRequest) {
   try {
-    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      return NextResponse.json({
-        error: 'Supabase not configured. Add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to .env.local'
-      }, { status: 500 });
-    }
-
     const formData = await request.formData();
     const file = formData.get('file') as File;
 
@@ -75,48 +64,34 @@ export async function POST(request: NextRequest) {
     const content = await file.text();
     const rows = parseCSV(content);
 
-    console.log('Parsed rows:', rows.length);
-    console.log('First row keys:', rows[0] ? Object.keys(rows[0]) : 'none');
-
     let imported = 0;
     let errors = 0;
 
     for (const row of rows) {
       const postId = row['Post id'];
-      if (!postId) {
-        console.log('Skipping row without Post id');
-        continue;
-      }
+      if (!postId) continue;
 
       const postedAt = parseDate(row['Date']);
 
-      const record = {
-        post_id: postId,
-        posted_at: postedAt?.toISOString() || null,
-        reply_text: row['Post text'] || null,
-        reply_url: row['Post Link'] || null,
-        impressions: parseInt(row['Impressions']) || 0,
-        likes: parseInt(row['Likes']) || 0,
-        engagements: parseInt(row['Engagements']) || 0,
-        bookmarks: parseInt(row['Bookmarks']) || 0,
-        replies: parseInt(row['Replies']) || 0,
-        reposts: parseInt(row['Reposts'] || row['Shares']) || 0,
-        profile_visits: parseInt(row['Profile visits']) || 0
-      };
-
-      const { error } = await supabase
-        .from('x_replies')
-        .upsert(record, { onConflict: 'post_id' });
-
-      if (error) {
-        console.error('Insert error for post', postId, ':', error.message);
-        errors++;
-      } else {
+      try {
+        insertReply({
+          post_id: postId,
+          posted_at: postedAt?.toISOString() || null,
+          reply_text: row['Post text'] || null,
+          reply_url: row['Post Link'] || null,
+          impressions: parseInt(row['Impressions']) || 0,
+          likes: parseInt(row['Likes']) || 0,
+          engagements: parseInt(row['Engagements']) || 0,
+          bookmarks: parseInt(row['Bookmarks']) || 0,
+          replies: parseInt(row['Replies']) || 0,
+          reposts: parseInt(row['Reposts'] || row['Shares']) || 0,
+          profile_visits: parseInt(row['Profile visits']) || 0
+        });
         imported++;
+      } catch {
+        errors++;
       }
     }
-
-    console.log('Import complete:', imported, 'imported,', errors, 'errors');
 
     return NextResponse.json({
       success: true,

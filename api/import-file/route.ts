@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { insertReply } from '../../lib/db';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
-
-const supabase = createClient(
-  process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-);
 
 function parseCSVLine(line: string): string[] {
   const result: string[] = [];
@@ -61,12 +56,6 @@ function parseDate(dateStr: string): Date | null {
 
 export async function POST(request: NextRequest) {
   try {
-    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      return NextResponse.json({
-        error: 'Supabase not configured. Add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to .env.local'
-      }, { status: 500 });
-    }
-
     const { filename } = await request.json();
 
     if (!filename) {
@@ -97,28 +86,23 @@ export async function POST(request: NextRequest) {
 
       const postedAt = parseDate(row['Date']);
 
-      const record = {
-        post_id: postId,
-        posted_at: postedAt?.toISOString() || null,
-        reply_text: row['Post text'] || null,
-        reply_url: row['Post Link'] || null,
-        impressions: parseInt(row['Impressions']) || 0,
-        likes: parseInt(row['Likes']) || 0,
-        engagements: parseInt(row['Engagements']) || 0,
-        bookmarks: parseInt(row['Bookmarks']) || 0,
-        replies: parseInt(row['Replies']) || 0,
-        reposts: parseInt(row['Reposts'] || row['Shares']) || 0,
-        profile_visits: parseInt(row['Profile visits']) || 0
-      };
-
-      const { error } = await supabase
-        .from('x_replies')
-        .upsert(record, { onConflict: 'post_id' });
-
-      if (error) {
-        errors++;
-      } else {
+      try {
+        insertReply({
+          post_id: postId,
+          posted_at: postedAt?.toISOString() || null,
+          reply_text: row['Post text'] || null,
+          reply_url: row['Post Link'] || null,
+          impressions: parseInt(row['Impressions']) || 0,
+          likes: parseInt(row['Likes']) || 0,
+          engagements: parseInt(row['Engagements']) || 0,
+          bookmarks: parseInt(row['Bookmarks']) || 0,
+          replies: parseInt(row['Replies']) || 0,
+          reposts: parseInt(row['Reposts'] || row['Shares']) || 0,
+          profile_visits: parseInt(row['Profile visits']) || 0
+        });
         imported++;
+      } catch {
+        errors++;
       }
     }
 
