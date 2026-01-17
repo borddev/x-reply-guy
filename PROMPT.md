@@ -1,137 +1,259 @@
 # X Reply Guy - Installation Prompt
 
-Copy everything below and paste into Claude Code:
+Copy everything below the line and paste into Claude Code CLI.
 
 ---
 
+You are installing **X Reply Guy**, an AI-powered Twitter/X reply bot.
+
+## Step 1: Show Welcome
+
+Print this exactly:
+
 ```
-I want to install X Reply Guy for BORD. Execute these steps and show me the progress.
-
-## Installation Progress
-
-Show this progress bar and update it as you complete each step:
-
-Step 1: [░░░░░░░░░░░░░░░░░░░░]   0% - Starting installation...
-Step 2: [████░░░░░░░░░░░░░░░░]  20% - Cloning BORD platform...
-Step 3: [████████░░░░░░░░░░░░]  40% - Cloning X Reply Guy...
-Step 4: [████████████░░░░░░░░]  60% - Installing dependencies...
-Step 5: [████████████████░░░░]  80% - Setting up configuration...
-Step 6: [████████████████████] 100% - Starting server...
-
-## Steps to Execute
-
-### Step 1: Show welcome message
-Print this ASCII art:
-
-╔═══════════════════════════════════════════════════════════╗
-║                                                           ║
-║   ██╗  ██╗    ██████╗ ███████╗██████╗ ██╗  ██╗   ██╗     ║
-║   ╚██╗██╔╝    ██╔══██╗██╔════╝██╔══██╗██║  ╚██╗ ██╔╝     ║
-║    ╚███╔╝     ██████╔╝█████╗  ██████╔╝██║   ╚████╔╝      ║
-║    ██╔██╗     ██╔══██╗██╔══╝  ██╔═══╝ ██║    ╚██╔╝       ║
-║   ██╔╝ ██╗    ██║  ██║███████╗██║     ███████╗██║        ║
-║   ╚═╝  ╚═╝    ╚═╝  ╚═╝╚══════╝╚═╝     ╚══════╝╚═╝        ║
-║                                                           ║
-║              AI-Powered Twitter Reply Bot                 ║
-║                                                           ║
-╚═══════════════════════════════════════════════════════════╝
-
-### Step 2: Clone BORD (if not exists)
-Check if ./bord exists. If not:
-git clone https://github.com/borddev/bord ./bord
-
-Update progress: [████░░░░░░░░░░░░░░░░] 20%
-
-### Step 3: Clone X Reply Guy
-git clone https://github.com/borddev/x-reply-guy ./bord/apps/x-reply-guy
-
-Update progress: [████████░░░░░░░░░░░░] 40%
-
-### Step 4: Install dependencies
-cd ./bord
-npm install
-Also install app dependencies:
-npm install @supabase/supabase-js @anthropic-ai/sdk playwright
-
-Update progress: [████████████░░░░░░░░] 60%
-
-### Step 5: Setup configuration
-Copy the app files to the right locations:
-- Copy ./bord/apps/x-reply-guy/app/* to ./bord/app/x-reply-guy/
-
-Create ./bord/apps/x-reply-guy/config.json with:
-{
-  "name": "X Reply Guy",
-  "description": "AI-powered Twitter reply bot",
-  "href": "/x-reply-guy",
-  "color": "#1d9bf0",
-  "secrets": [
-    { "key": "SUPABASE_URL", "description": "Supabase project URL", "required": true },
-    { "key": "SUPABASE_SERVICE_ROLE_KEY", "description": "Supabase service key", "required": true },
-    { "key": "ANTHROPIC_API_KEY", "description": "Claude AI API key", "required": true },
-    { "key": "ADSPOWER_PROFILE_ID", "description": "AdsPower browser profile", "required": true }
-  ]
-}
-
-Update progress: [████████████████░░░░] 80%
-
-### Step 6: Start the server
-Run in background: npm run dev
-Wait for server to be ready.
-
-Update progress: [████████████████████] 100%
-
-### Step 7: Show completion message
-
-╔═══════════════════════════════════════════════════════════╗
-║                                                           ║
-║   ✓ Installation Complete!                                ║
-║                                                           ║
-║   X Reply Guy is now running at:                          ║
-║   → http://localhost:3000/x-reply-guy                     ║
-║                                                           ║
-║   Next steps:                                             ║
-║   1. Go to http://localhost:3000/secrets                  ║
-║   2. Add your API keys:                                   ║
-║      • SUPABASE_URL                                       ║
-║      • SUPABASE_SERVICE_ROLE_KEY                          ║
-║      • ANTHROPIC_API_KEY                                  ║
-║      • ADSPOWER_PROFILE_ID                                ║
-║   3. Start replying to viral tweets!                      ║
-║                                                           ║
-╚═══════════════════════════════════════════════════════════╝
-
-Then open the browser to http://localhost:3000/x-reply-guy
+┌──────────────────────────────────────────────────────────────┐
+│                                                              │
+│    ██████╗  ██████╗ ██████╗ ██████╗                          │
+│    ██╔══██╗██╔═══██╗██╔══██╗██╔══██╗                         │
+│    ██████╔╝██║   ██║██████╔╝██║  ██║                         │
+│    ██╔══██╗██║   ██║██╔══██╗██║  ██║                         │
+│    ██████╔╝╚██████╔╝██║  ██║██████╔╝                         │
+│    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝                          │
+│                                                              │
+│    Installing: X Reply Guy                                   │
+│    AI-powered Twitter/X reply bot                            │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
 ```
+
+## Step 2: Prerequisites Check
+
+Before installing, verify each prerequisite. Ask the user about each one and help them if something is missing.
+
+### 2.1 Node.js
+Run `node -v` to check if Node.js is installed.
+- If installed (v18+): ✓ Node.js ready
+- If not installed: Tell user to install from https://nodejs.org
+
+### 2.2 AdsPower
+Ask: "Do you have AdsPower installed and running?"
+
+Explain: AdsPower is a browser automation tool needed to interact with X/Twitter.
+- Download: https://www.adspower.com/download
+- After installing, open AdsPower and keep it running
+- The local API runs on http://127.0.0.1:50325
+
+If they say yes, test it:
+```bash
+curl -s http://127.0.0.1:50325/status
+```
+If it responds, AdsPower is ready.
+
+### 2.3 Supabase
+Ask: "Do you have a Supabase account and project?"
+
+Explain: Supabase is a free database to store your replies and analytics.
+- Create account: https://supabase.com/dashboard
+- Create a new project (free tier is fine)
+- You'll need: Project URL and Service Role Key (from Settings > API)
+
+Ask user for:
+1. SUPABASE_URL (looks like: https://xxxxx.supabase.co)
+2. SUPABASE_SERVICE_ROLE_KEY (starts with: eyJ...)
+
+Save these for later.
+
+### 2.4 Anthropic API Key
+Ask: "Do you have an Anthropic API key for Claude?"
+
+Explain: This powers the AI that writes your replies.
+- Get one: https://console.anthropic.com/settings/keys
+- Create a new key and copy it
+
+Ask user for:
+- ANTHROPIC_API_KEY (starts with: sk-ant-...)
+
+Save for later.
+
+### 2.5 X Premium Account
+Ask: "Do you have X Premium? (needed for analytics)"
+
+Explain: X Premium gives access to the analytics dashboard where you can see reply performance. The bot can work without it, but you won't be able to track impressions.
+
+This is optional - continue either way.
+
+## Step 3: Show Prerequisites Summary
+
+Print a checklist of what's ready:
+
+```
+PREREQUISITES
+═════════════
+✓ Node.js v[version]
+✓ AdsPower running
+✓ Supabase configured
+✓ Anthropic API key
+○ X Premium (optional)
+
+All required prerequisites met. Starting installation...
+```
+
+If anything is missing, stop and help the user fix it before continuing.
+
+## Step 4: Install BORD
+
+Check if ~/bord already exists:
+```bash
+ls ~/bord 2>/dev/null
+```
+
+If it exists, ask: "BORD is already installed at ~/bord. Use existing installation? (yes/no)"
+- If yes: Skip cloning, continue
+- If no: Ask if they want to delete and reinstall
+
+If it doesn't exist, clone:
+```bash
+git clone https://github.com/borddev/bord ~/bord
+```
+
+Print: `[████████░░░░░░░░░░░░] 40% - BORD installed`
+
+## Step 5: Install X Reply Guy
+
+```bash
+git clone https://github.com/borddev/x-reply-guy ~/bord/apps/x-reply-guy
+```
+
+Print: `[████████████░░░░░░░░] 60% - X Reply Guy installed`
+
+## Step 6: Install Dependencies
+
+```bash
+cd ~/bord && npm install
+```
+
+Print: `[████████████████░░░░] 80% - Dependencies installed`
+
+## Step 7: Configure Environment
+
+Create ~/bord/.env.local with the keys collected earlier:
+
+```bash
+cat > ~/bord/.env.local << 'EOF'
+# Supabase
+SUPABASE_URL=<the URL from step 2.3>
+SUPABASE_SERVICE_ROLE_KEY=<the key from step 2.3>
+
+# Anthropic
+ANTHROPIC_API_KEY=<the key from step 2.4>
+
+# AdsPower
+ADSPOWER_API=http://127.0.0.1:50325
+EOF
+```
+
+Replace the placeholders with the actual values the user provided.
+
+## Step 8: Setup Database
+
+Run this SQL on Supabase. You can either:
+1. Tell the user to run it in Supabase SQL Editor (https://supabase.com/dashboard/project/_/sql)
+2. Or use the Supabase CLI if available
+
+```sql
+-- X Reply Guy tables
+CREATE TABLE IF NOT EXISTS x_replies (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  post_id TEXT UNIQUE,
+  reply_text TEXT,
+  reply_url TEXT,
+  tweet_url TEXT,
+  tweet_text TEXT,
+  strategy TEXT,
+  source TEXT DEFAULT 'bot',
+  impressions INTEGER DEFAULT 0,
+  likes INTEGER DEFAULT 0,
+  engagements INTEGER DEFAULT 0,
+  bookmarks INTEGER DEFAULT 0,
+  replies INTEGER DEFAULT 0,
+  reposts INTEGER DEFAULT 0,
+  profile_visits INTEGER DEFAULT 0,
+  original_views INTEGER,
+  original_posted_at TIMESTAMPTZ,
+  response_time_mins INTEGER,
+  posted_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  school_rating TEXT,
+  school_comment TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_replies_posted ON x_replies(posted_at DESC);
+CREATE INDEX IF NOT EXISTS idx_replies_impressions ON x_replies(impressions DESC);
+```
+
+Ask the user to confirm when done.
+
+Print: `[████████████████████] 100% - Setup complete!`
+
+## Step 9: Complete
+
+Print this:
+
+```
+════════════════════════════════════════════════════════════════
+ ✓ INSTALLATION COMPLETE
+════════════════════════════════════════════════════════════════
+
+ X Reply Guy is installed at: ~/bord/apps/x-reply-guy
+
+ NEXT STEPS:
+ ───────────
+ 1. A new terminal window will open
+ 2. Claude Code will start in ~/bord
+ 3. Say "start the dev server" to begin
+
+ MANUAL SETUP NEEDED:
+ ────────────────────
+ • Open AdsPower
+ • Create a browser profile for your X account
+ • Log into X in that browser profile
+ • Note the profile ID (shown in AdsPower)
+
+════════════════════════════════════════════════════════════════
+
+Opening new terminal...
+```
+
+## Step 10: Open New Terminal
+
+Run this to open a new terminal window in ~/bord with Claude Code:
+
+```bash
+osascript -e 'tell application "Terminal" to do script "cd ~/bord && echo \"Welcome to BORD! Type: claude\" && echo \"\""'
+```
+
+Tell the user: "A new Terminal window opened. Run `claude` there to continue."
 
 ---
 
-## What This Does
+## Troubleshooting
 
-1. **Installs BORD** - The automation platform
-2. **Installs X Reply Guy** - The Twitter reply bot
-3. **Configures everything** - Sets up files and dependencies
-4. **Starts the server** - Opens the dashboard
+If something fails:
 
-## Requirements
+**AdsPower not responding:**
+- Make sure AdsPower app is open
+- Check if API is enabled in AdsPower settings
 
-- Node.js 18+
-- Git
-- Claude Code (or any AI assistant that can run commands)
+**Supabase connection failed:**
+- Verify the URL is correct (should end with .supabase.co)
+- Make sure you're using the Service Role Key, not the anon key
 
-## After Installation
+**Anthropic API error:**
+- Check the key is valid at https://console.anthropic.com
+- Make sure you have credits/billing set up
 
-You'll need these API keys (add them at `/secrets`):
+## Links
 
-| Key | Where to Get |
-|-----|--------------|
-| SUPABASE_URL | Create project at supabase.com |
-| SUPABASE_SERVICE_ROLE_KEY | Supabase dashboard → Settings → API |
-| ANTHROPIC_API_KEY | console.anthropic.com |
-| ADSPOWER_PROFILE_ID | AdsPower app → Profile ID |
-
-## Need Help?
-
-- [Documentation](https://bord.dev/docs/x-reply-guy)
-- [GitHub Issues](https://github.com/borddev/x-reply-guy/issues)
-- [Discord](https://discord.gg/bord)
+- [BORD Documentation](https://bord.dev/docs)
+- [X Reply Guy Repo](https://github.com/borddev/x-reply-guy)
+- [Report Issues](https://github.com/borddev/x-reply-guy/issues)
