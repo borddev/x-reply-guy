@@ -18,7 +18,7 @@ open http://localhost:3000/setup
 Reset and initialize setup:
 ```bash
 curl -s -X DELETE http://localhost:3000/api/setup > /dev/null
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":1,"message":"Installing X Reply Guy...","progress":5,"complete":false,"logs":["→ Starting X Reply Guy setup..."],"app":{"name":"X Reply Guy","description":"Twitter/X analytics & automation","icon":"x","features":["Track reply impressions & engagement","Views per minute analytics","Stealth browser automation","Persistent login sessions"]}}'
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":1,"message":"Installing X Reply Guy...","progress":5,"complete":false,"logs":["→ Starting X Reply Guy setup..."],"app":{"name":"X Reply Guy","description":"Twitter/X analytics & automation","icon":"/icons/x-reply.webp","features":["Track reply impressions & engagement","Views per minute analytics","Stealth browser automation","Persistent login sessions"]}}'
 ```
 
 ### 2. Install App Pages
