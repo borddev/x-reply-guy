@@ -4,8 +4,11 @@ Twitter/X analytics dashboard.
 
 ## Setup Steps
 
-When asked to setup x-reply-guy, FIRST print this welcome banner:
+When asked to setup x-reply-guy, follow ALL steps automatically:
 
+### 1. Show Welcome
+
+Print:
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │                                                              │
@@ -21,125 +24,42 @@ When asked to setup x-reply-guy, FIRST print this welcome banner:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-### 1. Install Browser Tool
+### 2. Install Browser
+
+Print: `[████████░░░░░░░░░░░░] 40% Installing BORD Browser...`
+
+Install Playwright browsers:
+```bash
+cd ~/bord && npx playwright install chromium
+```
+
+Send notification:
+```bash
+npx tsx ~/bord/lib/notify.ts "Browser installed!" --app bord
+```
+
+Print: `[████████████░░░░░░░░] 60% Browser ready`
+
+### 3. Launch Browser & Login
 
 Print:
 ```
-[████░░░░░░░░░░░░░░░░] 20% Setting up browser automation...
+[████████████░░░░░░░░] 60% Launching browser...
 
-X Reply Guy needs a browser tool to interact with Twitter/X.
-We use AdsPower - it's FREE and lets you safely automate browsers.
-Used by 10M+ people worldwide.
+BORD Browser uses stealth Playwright - it's FREE and open source.
+Your session is saved in ~/bord/data/browser-profiles/x-reply-guy/
 ```
 
-Check if AdsPower is installed:
+Launch the browser:
 ```bash
-ls /Applications/AdsPower*.app 2>/dev/null
+npx tsx ~/bord/lib/browser.ts launch x-reply-guy &
 ```
 
-If not installed:
-- Search web for latest AdsPower macOS download link
-- Download the DMG for the correct architecture (ARM64 or Intel)
-- Mount, copy to /Applications, unmount
-
-Send notification:
-```bash
-npx tsx ~/bord/lib/notify.ts "AdsPower installed!" --app bord
-```
-
-Print: `[████████░░░░░░░░░░░░] 40% Browser tool ready`
-
-### 2. Setup AdsPower Account
-
-Print:
-```
-[████████░░░░░░░░░░░░] 40% Opening AdsPower...
-```
-
-Open AdsPower app:
-```bash
-open "/Applications/AdsPower Global.app" 2>/dev/null || open /Applications/AdsPower.app
-```
-
-Send notification:
-```bash
-npx tsx ~/bord/lib/notify.ts "Login to AdsPower with Google" --app bord
-```
-
-Tell user:
-```
-══════════════════════════════════════════════════════════════
- LOGIN TO ADSPOWER (FREE)
-══════════════════════════════════════════════════════════════
-
- AdsPower app is now open.
-
- Click "Login with Google" - it's the fastest way!
- (Or click Register if you prefer email)
-
- Say "done" when you're logged in
-══════════════════════════════════════════════════════════════
-```
-
-Wait for user to say "done".
-
-### 3. Create Browser Profile (Automatic)
-
-Print: `[████████████░░░░░░░░] 60% Creating browser profile...`
-
-Send notification:
-```bash
-npx tsx ~/bord/lib/notify.ts "Creating browser profile..." --app bord
-```
-
-Create profile using AdsPower API:
-```bash
-curl -s "http://127.0.0.1:50325/api/v1/user/create" \
-  -H "Content-Type: application/json" \
-  -d '{"name":"X Reply Guy","group_id":"0","remark":"Created by BORD"}'
-```
-
-This returns JSON with the profile ID. Extract the `user_id` from the response.
-
-If API fails, check if AdsPower is running and try again.
-
-Print: `Profile created! ID: <user_id>`
-
-### 4. Save Configuration
-
-Print: `[████████████████░░░░] 80% Saving configuration...`
-
-Create ~/bord/.env.local with the profile ID from step 3:
-```
-ADSPOWER_API=http://127.0.0.1:50325
-ADSPOWER_PROFILE_ID=<user_id from step 3>
-```
-
-Send notification:
-```bash
-npx tsx ~/bord/lib/notify.ts "Configuration saved!" --app bord
-```
-
-### 5. Login to Twitter/X
-
-Print: `[████████████████░░░░] 85% Opening browser...`
-
-Open the browser profile automatically:
-```bash
-curl -s "http://127.0.0.1:50325/api/v1/browser/start?user_id=<user_id>"
-```
-
-This launches the browser. Wait 3 seconds for it to open.
+Wait 5 seconds for browser to open.
 
 Send notification:
 ```bash
 npx tsx ~/bord/lib/notify.ts "Browser opened! Login to X" --app bord
-```
-
-Then open Twitter:
-```bash
-# The browser is now controlled by AdsPower
-# Tell user to login
 ```
 
 Tell user:
@@ -148,17 +68,30 @@ Tell user:
  LOGIN TO TWITTER/X
 ══════════════════════════════════════════════════════════════
 
- A browser just opened automatically!
+ A browser window just opened!
 
- 1. Go to x.com
+ 1. Go to x.com (it may already be there)
  2. Login to your Twitter/X account
- 3. Keep the browser open
+ 3. DON'T close the browser - just come back here
 
- Say "done" when logged in
+ Say "done" when you're logged in
 ══════════════════════════════════════════════════════════════
 ```
 
-### 6. Start Dashboard
+Wait for user to say "done".
+
+### 4. Verify Login
+
+Print: `[████████████████░░░░] 80% Verifying login...`
+
+The browser should now be logged into X. The session is automatically saved.
+
+Send notification:
+```bash
+npx tsx ~/bord/lib/notify.ts "Login verified!" --app bord
+```
+
+### 5. Start Dashboard
 
 Print: `[████████████████████] 100% Starting dashboard...`
 
@@ -181,8 +114,35 @@ Print:
 
  Dashboard: http://localhost:3000/x-reply-guy
 
- Your browser profile is connected and ready.
- Keep AdsPower running in the background.
+ Browser profile saved at:
+ ~/bord/data/browser-profiles/x-reply-guy/
+
+ Your login session is persistent - you won't need to login again!
 
 ════════════════════════════════════════════════════════════════
 ```
+
+## Running the Bot
+
+When user asks to "start the bot" or "run x-reply-guy":
+
+```bash
+cd ~/bord && npx tsx apps/x-reply-guy/automations/reply-bot.ts
+```
+
+## Browser Commands
+
+- Launch browser: `npx tsx ~/bord/lib/browser.ts launch x-reply-guy`
+- List profiles: `npx tsx ~/bord/lib/browser.ts list`
+- Delete profile: `npx tsx ~/bord/lib/browser.ts delete x-reply-guy`
+
+## Database
+
+SQLite at `~/bord/data/x-reply-guy/replies.db` - created automatically.
+
+## No AdsPower Needed!
+
+BORD Browser is built-in and FREE:
+- Stealth mode (anti-detection)
+- Persistent sessions (stay logged in)
+- Open source
