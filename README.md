@@ -2,26 +2,20 @@
 
 Twitter/X analytics dashboard.
 
-## Quick Start
+## Install
 
-```bash
-# 1. Clone BORD (the platform)
-git clone https://github.com/borddev/bord ~/bord
+**Step 1:** Install BORD first (if you haven't):
+> Clone https://github.com/borddev/bord to ~/bord and run npm install
 
-# 2. Clone this app
-git clone https://github.com/borddev/x-reply-guy ~/bord/apps/x-reply-guy
+**Step 2:** Install this app:
+> Clone https://github.com/borddev/x-reply-guy to ~/bord/apps/x-reply-guy
 
-# 3. Install dependencies
-cd ~/bord && npm install
-
-# 4. Start Claude Code
-claude
-```
-
-Then say **"setup x-reply-guy"** to complete configuration.
+**Step 3:** Setup:
+> setup x-reply-guy
 
 ## Requirements
 
+- [BORD](https://github.com/borddev/bord) platform
 - Node.js 18+
 - macOS / Linux
 
