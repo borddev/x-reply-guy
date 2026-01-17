@@ -1,96 +1,69 @@
-# X Reply Guy - Claude Code Instructions
+# X Reply Guy
 
-You are running X Reply Guy, an AI-powered Twitter/X reply bot.
+Twitter/X engagement analytics dashboard with content tools.
 
-## What is X Reply Guy?
+## Setup Command
 
-An autonomous bot that:
-1. Monitors viral tweets on X/Twitter
-2. Generates witty, engaging replies using Claude AI (that's you!)
-3. Posts replies to gain impressions and followers
-4. Tracks performance with analytics dashboard
+When user says "setup x-reply-guy", guide them through browser setup:
 
-## Prerequisites
+1. **Check if AdsPower is installed**
+   ```bash
+   ls /Applications/AdsPower.app 2>/dev/null
+   ```
+   If not installed, tell user to download from https://www.adspower.com/download
 
-- BORD platform installed at ~/bord
-- AdsPower with X account logged in
-- X Premium account (for analytics)
+2. **Open AdsPower**
+   ```bash
+   open /Applications/AdsPower.app
+   ```
+
+3. **Guide user to create account** (if new)
+   - Click "Register" in AdsPower
+   - Enter email and password
+   - Verify email
+
+4. **Create browser profile**
+   - Click "New Profile" button
+   - Name it anything (e.g. "Main")
+   - Click OK
+
+5. **Get profile ID**
+   - Right-click the profile
+   - Select "Check ID"
+   - Copy the ID (looks like: jxxxxxx)
+
+6. **Save to .env.local**
+   Create ~/bord/.env.local with:
+   ```
+   ADSPOWER_API=http://127.0.0.1:50325
+   ADSPOWER_PROFILE_ID=<the ID from step 5>
+   ```
+
+7. **Login to X**
+   - Click "Open" on the profile in AdsPower
+   - Go to x.com and login
+   - Keep browser open
+
+8. **Done!**
+   Print: "Setup complete! Say 'start the dev server' to view dashboard."
+
+## Running
+
+- **Dashboard**: `npm run dev` then open localhost:3000/x-reply-guy
+- **View analytics**: Main page shows engagement metrics
+- **School**: Rate content to improve suggestions
 
 ## Database
 
-Uses SQLite stored at: `~/bord/data/x-reply-guy/replies.db`
+SQLite at `~/bord/data/x-reply-guy/replies.db` - created automatically.
 
-No external database setup required - it's created automatically.
-
-## Environment Variables
-
-Add these to `~/bord/.env.local`:
-
-```env
-# AdsPower
-ADSPOWER_API=http://127.0.0.1:50325
-ADSPOWER_PROFILE_ID=jxxxxxx
-
-# Optional
-X_USERNAME=your_handle
-```
-
-## Reply Strategies
-
-The bot uses these strategies (configured by A/B testing):
-
-| Strategy | Description | Weight |
-|----------|-------------|--------|
-| @grok Photo | Ask Grok to generate a funny image | 80% |
-| @grok Question | Ask Grok an absurd question | 15% |
-| No Grok | Pure witty reply | 5% |
-
-## Bot Rules
-
-- Max 12-15 words per reply
-- All lowercase (except @grok)
-- No emojis, no hashtags
-- Dark humor, cynical realist tone
-- Reply to posts with 10K+ views
-- Wait 25-45 seconds between replies
-
-## File Structure
+## Files
 
 ```
 x-reply-guy/
-├── app/                    # Dashboard pages
-│   ├── page.tsx           # Main analytics
-│   ├── school/page.tsx    # Training school
-│   └── f4f/page.tsx       # Follow 4 Follow
-├── api/                   # API routes
-├── lib/
-│   └── db.ts             # SQLite database
-├── public/
-│   └── icon.png          # X logo for notifications
-├── config.json            # App metadata
-└── CLAUDE.md             # This file
+├── app/           # Dashboard pages
+├── api/           # API routes
+├── lib/db.ts      # SQLite database
+├── public/        # Icons
+└── CLAUDE.md      # This file
 ```
-
-## Running the Bot
-
-Say "start the reply bot" and I will:
-1. Check AdsPower is running
-2. Open the browser profile
-3. Navigate to X and start replying
-
-## Dashboard
-
-Say "start the dev server" to view analytics at localhost:3000/x-reply-guy
-
-## Notifications
-
-The bot sends macOS notifications for:
-- Reply posted successfully
-- Error occurred
-- Session stats
-
-Uses the X logo from `public/icon.png`.
-
----
-
-**This is open source. Never commit credentials.**
