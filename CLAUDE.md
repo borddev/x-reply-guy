@@ -6,57 +6,59 @@ Twitter/X analytics dashboard.
 
 When asked to setup x-reply-guy, follow ALL steps automatically:
 
-### 1. Show Welcome
+### 1. Start Dashboard & Open Setup UI
 
-Print:
+Start the BORD dashboard immediately so user sees visual progress:
+```bash
+cd ~/bord && npm run dev > /dev/null 2>&1 &
+sleep 3
+open http://localhost:3000/setup
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                                                              │
-│    ██████╗  ██████╗ ██████╗ ██████╗                          │
-│    ██╔══██╗██╔═══██╗██╔══██╗██╔══██╗                         │
-│    ██████╔╝██║   ██║██████╔╝██║  ██║                         │
-│    ██╔══██╗██║   ██║██╔══██╗██║  ██║                         │
-│    ██████╔╝╚██████╔╝██║  ██║██████╔╝                         │
-│    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝                          │
-│                                                              │
-│    Setting up: X Reply Guy                                   │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
+
+Initialize setup status:
+```bash
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":1,"message":"Installing X Reply Guy...","progress":10,"complete":false}'
 ```
 
 ### 2. Install App Pages
 
-Print: `[████████░░░░░░░░░░░░] 40% Installing X Reply Guy...`
+Update progress:
+```bash
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":1,"message":"Copying app files...","progress":20,"complete":false}'
+```
 
 Copy app pages and API routes to BORD dashboard:
 ```bash
 mkdir -p ~/bord/app/x-reply-guy/api && cp -r ~/bord/apps/x-reply-guy/app/* ~/bord/app/x-reply-guy/ && cp -r ~/bord/apps/x-reply-guy/api/* ~/bord/app/x-reply-guy/api/
 ```
 
+Update progress:
+```bash
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":2,"message":"App files installed!","progress":30,"complete":false}'
+```
+
 ### 3. Install Browser
 
-Print: `[████████████░░░░░░░░] 50% Installing BORD Browser...`
+Update progress:
+```bash
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":2,"message":"Installing BORD Browser...","progress":40,"complete":false}'
+```
 
 Install Playwright browsers:
 ```bash
 cd ~/bord && npx playwright install chromium
 ```
 
-Send notification:
+Update progress:
 ```bash
-npx tsx ~/bord/lib/notify.ts "Browser installed!" --app bord
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":3,"message":"Browser installed!","progress":60,"complete":false}'
 ```
 
-Print: `[████████████████░░░░] 70% Browser ready`
+### 4. Launch Browser for Login
 
-### 4. Launch Browser & Login
-
-Print:
-```
-[████████████████░░░░] 70% Launching browser...
-
-BORD Browser uses stealth Playwright - it's FREE and open source.
-Your session is saved in ~/bord/data/browser-profiles/x-reply-guy/
+Update progress:
+```bash
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":3,"message":"Launching browser - please login to X...","progress":70,"complete":false}'
 ```
 
 Launch the browser:
@@ -64,12 +66,7 @@ Launch the browser:
 npx tsx ~/bord/lib/browser.ts launch x-reply-guy &
 ```
 
-Wait 5 seconds for browser to open.
-
-Send notification:
-```bash
-npx tsx ~/bord/lib/notify.ts "Browser opened! Login to X" --app bord
-```
+Wait 3 seconds for browser to open.
 
 Tell user:
 ```
@@ -79,9 +76,8 @@ Tell user:
 
  A browser window just opened!
 
- 1. Go to x.com (it may already be there)
- 2. Login to your Twitter/X account
- 3. DON'T close the browser - just come back here
+ 1. Login to your Twitter/X account
+ 2. DON'T close the browser - just come back here
 
  Say "done" when you're logged in
 ══════════════════════════════════════════════════════════════
@@ -89,44 +85,22 @@ Tell user:
 
 Wait for user to say "done".
 
-### 5. Verify Login
+### 5. Complete Setup
 
-Print: `[██████████████████░░] 85% Verifying login...`
-
-The browser should now be logged into X. The session is automatically saved.
-
-Send notification:
+Update progress:
 ```bash
-npx tsx ~/bord/lib/notify.ts "Login verified!" --app bord
-```
-
-### 6. Start Dashboard
-
-Print: `[████████████████████] 100% Starting dashboard...`
-
-```bash
-cd ~/bord && npm run dev &
-sleep 3
-open http://localhost:3000/x-reply-guy
-```
-
-Send notification:
-```bash
-npx tsx ~/bord/lib/notify.ts "X Reply Guy is ready!" --app x-reply-guy --subtitle "Dashboard opened"
+curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":4,"message":"Login saved! Redirecting to X Reply Guy...","progress":100,"complete":true,"redirect":"/x-reply-guy"}'
 ```
 
 Print:
 ```
 ════════════════════════════════════════════════════════════════
- ✓ X REPLY GUY READY
+ X REPLY GUY READY
 ════════════════════════════════════════════════════════════════
 
  Dashboard: http://localhost:3000/x-reply-guy
 
- Browser profile saved at:
- ~/bord/data/browser-profiles/x-reply-guy/
-
- Your login session is persistent - you won't need to login again!
+ Your browser session is saved - you won't need to login again!
 
 ════════════════════════════════════════════════════════════════
 ```
