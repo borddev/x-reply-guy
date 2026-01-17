@@ -38,12 +38,12 @@ Print this ASCII art:
 
 ### Step 2: Clone BORD (if not exists)
 Check if ./bord exists. If not:
-git clone https://github.com/user/bord ./bord
+git clone https://github.com/borddev/bord ./bord
 
 Update progress: [████░░░░░░░░░░░░░░░░] 20%
 
 ### Step 3: Clone X Reply Guy
-git clone https://github.com/user/x-reply-guy ./bord/apps/x-reply-guy
+git clone https://github.com/borddev/x-reply-guy ./bord/apps/x-reply-guy
 
 Update progress: [████████░░░░░░░░░░░░] 40%
 
@@ -133,5 +133,5 @@ You'll need these API keys (add them at `/secrets`):
 ## Need Help?
 
 - [Documentation](https://bord.dev/docs/x-reply-guy)
-- [GitHub Issues](https://github.com/user/x-reply-guy/issues)
+- [GitHub Issues](https://github.com/borddev/x-reply-guy/issues)
 - [Discord](https://discord.gg/bord)

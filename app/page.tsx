@@ -299,7 +299,7 @@ export default function XReplyGuyPage() {
             <h1 style={{ margin: 0, fontSize: 20, fontWeight: 500, color: '#fff' }}>Reply Guy</h1>
           </a>
           <a
-            href="https://github.com/Cronin/x-reply-guy"
+            href="https://github.com/borddev/x-reply-guy"
             target="_blank"
             rel="noopener noreferrer"
             style={{
