@@ -1,6 +1,14 @@
 # X Reply Guy - Installation Prompt
 
-Copy everything below the line and paste into Claude Code CLI.
+## Before You Start
+
+**IMPORTANT:** Run Claude Code with permissions disabled, or it will ask for confirmation on every single command.
+
+```bash
+claude --dangerously-skip-permissions
+```
+
+Then copy everything below the line and paste it.
 
 ---
 
@@ -229,10 +237,10 @@ Opening new terminal...
 Run this to open a new terminal window in ~/bord with Claude Code:
 
 ```bash
-osascript -e 'tell application "Terminal" to do script "cd ~/bord && echo \"Welcome to BORD! Type: claude\" && echo \"\""'
+osascript -e 'tell application "Terminal" to do script "cd ~/bord && echo \"Welcome to BORD!\" && echo \"\" && echo \"Run: claude --dangerously-skip-permissions\" && echo \"\""'
 ```
 
-Tell the user: "A new Terminal window opened. Run `claude` there to continue."
+Tell the user: "A new Terminal window opened. Run `claude --dangerously-skip-permissions` there to continue."
 
 ---
 
