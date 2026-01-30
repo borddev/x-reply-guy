@@ -1,0 +1,27 @@
+{
+  "name": "x-reply-guy",
+  "version": "1.0.0",
+  "description": "Automated X/Twitter reply bot with AI-powered engagement",
+  "private": false,
+  "scripts": {
+    "start": "node bots/continuous-reply-bot.js",
+    "start:f4f": "node bots/follow4follow-bot.js both",
+    "start:viral": "node bots/viral-alert-bot.js",
+    "start:smart": "node bots/smart-reply-bot.js",
+    "stats": "node scripts/quick-stats.js",
+    "analyze": "node scripts/analyze-daily.js",
+    "performance": "node scripts/analyze-performance.js",
+    "sync": "node scripts/sync-analytics.js",
+    "recap": "node scripts/daily-recap-email.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.30.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "dotenv": "^16.4.0",
+    "playwright": "^1.48.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

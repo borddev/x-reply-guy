@@ -1,15 +1,39 @@
-# Dependencies
-node_modules/
-
-# Environment - NEVER COMMIT
+# Environment
 .env
 .env.local
-.env.*
 
-# State files with personal data
-state.json
-*.db
+# State files
+state/
+*.state.json
+*-state.json
+continuous-state.json
+
+# Logs
 logs/
+*.log
+bot.log
+
+# Runtime
+*.pid
+.*.pid
+.*.lock
+.analysis-prompt.tmp
+
+# Data files
+*.db
+replies.db
+insights.json
+current-tweets.json
+pending-reply.json
+*-log.json
+
+# Config (user-specific, copy from *-example.json)
+config/viral-sources.json
+config/follow4follow-sources.json
+config/notification-priority.json
+
+# Node
+node_modules/
 
 # OS
 .DS_Store
@@ -19,3 +43,14 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Screenshots & test output
+visual-checks/
+test-results/
+mascot-test-screenshots/
+streak-test-screenshots/
+*.png
+!public/*.png
+
+# Session reports
+session-report-*.md

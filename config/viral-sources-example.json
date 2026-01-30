@@ -1,0 +1,9 @@
+{
+  "_comment": "Accounts known for viral content. Used by viral-alert-bot.",
+  "accounts": [
+    "NoContextHumans",
+    "TheFigen_",
+    "historyinmemes",
+    "spectatorindex"
+  ]
+}

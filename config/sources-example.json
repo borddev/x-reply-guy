@@ -1,0 +1,7 @@
+{
+  "_comment": "Accounts to monitor for tweets to reply to. Set active: false to disable.",
+  "NoContextHumans": { "active": true, "priority": 1, "category": "memes" },
+  "TheFigen_": { "active": true, "priority": 2, "category": "viral" },
+  "historyinmemes": { "active": true, "priority": 3, "category": "memes" },
+  "spectatorindex": { "active": true, "priority": 4, "category": "news" }
+}

@@ -1,0 +1,9 @@
+{
+  "_comment": "Accounts to rush-reply when they post. Bot checks notifications for these.",
+  "_config": {
+    "maxAgeMinutes": 10
+  },
+  "autoAddThreshold": 10000,
+  "accounts": [],
+  "autoAddedAccounts": []
+}

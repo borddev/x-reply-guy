@@ -1,0 +1,7 @@
+{
+  "_comment": "Accounts whose followers to target for follow-for-follow. Set active: false to disable.",
+  "jxnlco": { "active": true, "priority": 1, "category": "tech" },
+  "arlogilbert": { "active": true, "priority": 2, "category": "tech" },
+  "danmartell": { "active": true, "priority": 3, "category": "saas" },
+  "AndrewAskins": { "active": true, "priority": 4, "category": "indie" }
+}

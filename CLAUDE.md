@@ -1,102 +1,76 @@
 # X Reply Guy
 
-Twitter/X analytics dashboard.
+Automated X/Twitter reply bot with AI-powered engagement. Uses Claude AI to analyze tweets and generate viral replies via @grok photo/question requests.
 
-## Setup Steps
+## Architecture
 
-When asked to setup x-reply-guy, follow ALL steps automatically without stopping:
-
-### 1. Start Dashboard & Open Setup UI
-
-Start the BORD dashboard and open setup screen:
-```bash
-cd ~/bord && npm run dev > /dev/null 2>&1 &
-sleep 3
-open http://localhost:3000/setup
+```
+x-reply-guy/
+├── bots/                    # Main bot scripts (run continuously)
+│   ├── continuous-reply-bot.js   # Primary bot - finds & replies to viral tweets
+│   ├── follow4follow-bot.js      # F4F growth bot
+│   ├── viral-alert-bot.js        # Monitors for viral tweets
+│   └── smart-reply-bot.js        # Rate-limited smart replies
+├── scripts/                 # Utility scripts (run on demand)
+│   ├── start.sh / stop.sh / status.sh / watchdog.sh
+│   ├── analyze-daily.js     # Daily AI analysis
+│   ├── analyze-performance.js
+│   ├── sync-analytics.js    # Sync views from X analytics
+│   ├── quick-stats.js       # Quick performance overview
+│   └── daily-recap-email.js # Email recap
+├── lib/                     # Shared modules
+│   ├── supabase.js          # DB client (from .env)
+│   ├── adspower.js          # Browser automation
+│   ├── ai.js                # Claude AI client
+│   ├── email.js             # Mailgun client
+│   └── tweet-scorer.js      # Tweet scoring algorithm
+├── config/                  # Configuration
+│   ├── agent-prompt.md      # AI agent instructions
+│   ├── personas/            # Character templates
+│   └── *-example.json       # Config templates
+├── db/                      # Database schemas
+│   ├── schema.sql           # Main tables
+│   └── follow4follow-schema.sql
+└── .env                     # Credentials (not in git)
 ```
 
-Reset and initialize setup:
-```bash
-curl -s -X DELETE http://localhost:3000/api/setup > /dev/null
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"step":1,"message":"Installing X Reply Guy...","progress":5,"complete":false,"logs":["→ Starting X Reply Guy setup..."],"app":{"name":"X Reply Guy","description":"Twitter/X analytics & automation","icon":"/icons/x-reply.webp","features":["Track reply impressions & engagement","Views per minute analytics","Stealth browser automation","Persistent login sessions"]}}'
-```
-
-### 2. Install App Pages
-
-Log and copy files:
-```bash
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"→ Creating app directory..."}'
-mkdir -p ~/bord/app/x-reply-guy/api
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"→ Copying app pages...","progress":15}'
-cp -r ~/bord/apps/x-reply-guy/app/* ~/bord/app/x-reply-guy/
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"→ Copying API routes...","progress":20}'
-cp -r ~/bord/apps/x-reply-guy/api/* ~/bord/app/x-reply-guy/api/
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"✓ App files installed","step":2,"message":"Installing browser...","progress":30}'
-```
-
-### 3. Install Browser
-
-Install Playwright with logging:
-```bash
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"→ Installing Playwright Chromium...","message":"Downloading browser..."}'
-cd ~/bord && npx playwright install chromium 2>&1 | head -5
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"✓ Browser installed","step":2,"message":"Browser ready!","progress":50}'
-```
-
-### 4. Launch Browser for Login
-
-Launch browser and start auto-detection:
-```bash
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"→ Launching BORD Browser...","step":3,"message":"Opening browser...","progress":55}'
-npx tsx ~/bord/lib/browser.ts launch x-reply-guy > /dev/null 2>&1 &
-sleep 3
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"✓ Browser launched","log":"→ Navigate to x.com and login","message":"Login to X in the browser...","progress":60,"waitingForLogin":true}'
-```
-
-### 5. Auto-Detect Login & Complete
-
-Start the login detection script (runs in background, auto-completes when logged in):
-```bash
-curl -s -X POST http://localhost:3000/api/setup -H "Content-Type: application/json" -d '{"log":"→ Waiting for X login...","message":"Login to X - setup will continue automatically","progress":70}'
-npx tsx ~/bord/lib/check-x-login.ts x-reply-guy &
-```
-
-Tell user (this is the ONLY message they see in terminal):
-```
-════════════════════════════════════════════════════════════════
-
-  A browser window opened - login to X/Twitter
-
-  Setup will complete automatically when you're logged in.
-
-  Watch the progress at: http://localhost:3000/setup
-
-════════════════════════════════════════════════════════════════
-```
-
-DO NOT wait for user response. The check-x-login.ts script will auto-detect login and complete the setup. The user just needs to login in the browser.
-
-## Running the Bot
-
-When user asks to "start the bot" or "run x-reply-guy":
+## Running Bots
 
 ```bash
-cd ~/bord && npx tsx apps/x-reply-guy/automations/reply-bot.ts
+# Start main reply bot
+npm start                     # or: ./scripts/start.sh (background)
+
+# Start F4F bot
+npm run start:f4f
+
+# Start viral alert monitor
+npm run start:viral
+
+# Check status
+./scripts/status.sh
+
+# Stop
+./scripts/stop.sh
 ```
 
-## Browser Commands
+## Key Concepts
 
-- Launch browser: `npx tsx ~/bord/lib/browser.ts launch x-reply-guy`
-- List profiles: `npx tsx ~/bord/lib/browser.ts list`
-- Delete profile: `npx tsx ~/bord/lib/browser.ts delete x-reply-guy`
+- **VPM (Views Per Minute)**: Primary metric for tweet selection. High VPM = catching viral wave early.
+- **Strategies**: 90% @grok photo, 10% @grok question (data-driven from 500+ replies).
+- **Agent Prompt**: `config/agent-prompt.md` controls AI decision-making. Editable without code changes.
+- **State files**: Bot state in `state/` directory (gitignored). Safe to delete to reset.
 
-## Database
+## Dependencies
 
-SQLite at `~/bord/data/x-reply-guy/replies.db` - created automatically.
+- **AdsPower**: Browser automation with anti-detection profiles
+- **Supabase**: Reply tracking, analytics, F4F tracking
+- **Claude AI**: Tweet analysis and reply generation
+- **Playwright**: Browser control (connects to AdsPower via CDP)
 
-## No AdsPower Needed!
+## Environment
 
-BORD Browser is built-in and FREE:
-- Stealth mode (anti-detection)
-- Persistent sessions (stay logged in)
-- Open source
+All credentials in `.env` (see `.env.example`). Required:
+- `ANTHROPIC_API_KEY` - Claude AI
+- `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` - Database
+- `ADSPOWER_PROFILE_ID` - Browser profile
+- `X_USERNAME` - Your X handle
