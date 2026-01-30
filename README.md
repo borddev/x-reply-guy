@@ -4,35 +4,44 @@ Automated X/Twitter reply bot that uses Claude AI to generate viral replies. Fin
 
 **Results from 500+ replies:** @grok photo strategy averages 505 views/reply, with top performers hitting 18K+ views.
 
+## Install
+
+Copy and paste into [Claude Code](https://claude.ai/claude-code):
+
+```
+Clone https://github.com/borddev/bord to ~/bord then clone https://github.com/borddev/x-reply-guy to ~/bord/apps/x-reply-guy then run npm install in ~/bord then read ~/bord/apps/x-reply-guy/CLAUDE.md and run the setup steps
+```
+
+This installs x-reply-guy as an app inside [BORD](https://github.com/borddev/bord), which provides the dashboard UI for analytics, reply school, and bot management.
+
 ## How It Works
 
 1. Bot searches X for trending tweets (min 5K+ likes, English)
 2. Claude AI analyzes each tweet: skip politics, skip small accounts, find comedy angle
 3. Generates @grok photo request or witty reply
-4. Posts reply via AdsPower browser automation
+4. Posts reply via browser automation
 5. Tracks performance in Supabase, syncs analytics from X Premium
 
 ## Prerequisites
 
+- **[Claude Code](https://claude.ai/claude-code)** - For automated setup
 - **Node.js 18+**
 - **[AdsPower](https://www.adspower.com/)** - Anti-detect browser with a profile logged into X
 - **[Supabase](https://supabase.com/)** account - Free tier works
 - **[Anthropic API key](https://console.anthropic.com/)** - For Claude AI
-- **Playwright** - Installed automatically with `npm install`
 
-## Setup
+## Manual Setup (without Claude Code)
 
 ```bash
-# 1. Clone
-git clone https://github.com/borddev/x-reply-guy.git
-cd x-reply-guy
+# 1. Clone BORD dashboard
+git clone https://github.com/borddev/bord.git ~/bord
+cd ~/bord && npm install
 
-# 2. Install dependencies
-npm install
-npx playwright install chromium
+# 2. Clone x-reply-guy as a BORD app
+git clone https://github.com/borddev/x-reply-guy.git ~/bord/apps/x-reply-guy
 
 # 3. Configure environment
-cp .env.example .env
+cp ~/bord/apps/x-reply-guy/.env.example ~/bord/apps/x-reply-guy/.env
 # Edit .env with your credentials
 
 # 4. Setup database
@@ -41,6 +50,7 @@ cp .env.example .env
 #   db/follow4follow-schema.sql (optional, for F4F bot)
 
 # 5. Configure sources (optional)
+cd ~/bord/apps/x-reply-guy
 cp config/sources-example.json config/viral-sources.json
 cp config/follow4follow-sources-example.json config/follow4follow-sources.json
 cp config/notification-priority-example.json config/notification-priority.json
@@ -120,9 +130,14 @@ Uses Supabase with two main table groups:
 
 Run `db/schema.sql` and `db/follow4follow-schema.sql` in Supabase SQL Editor.
 
-## Companion: BORD Dashboard
+## BORD Dashboard
 
-For a visual dashboard to monitor performance, check out [BORD](https://github.com/borddev/bord) - the orchestrator dashboard that provides UI for analytics, reply school, and bot management.
+x-reply-guy is designed to run as an app inside [BORD](https://github.com/borddev/bord). BORD provides:
+
+- Visual dashboard for reply analytics and performance
+- Reply School - review and rate your replies to improve the AI
+- Bot management UI (start/stop/pause)
+- Follow-for-follow stats and source management
 
 ## License
 
