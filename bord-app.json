@@ -1,0 +1,31 @@
+{
+  "name": "x-reply-guy",
+  "displayName": "X Reply Guy",
+  "description": "AI-powered Twitter reply bot",
+  "color": "#1d9bf0",
+  "version": "1.0.0",
+  "pages": [
+    { "path": "/x-reply-guy", "file": "pages/page.tsx" },
+    { "path": "/x-reply-guy/f4f", "file": "pages/f4f/page.tsx" },
+    { "path": "/x-reply-guy/school", "file": "pages/school/page.tsx" }
+  ],
+  "apiRoutes": [
+    { "path": "/api/x-reply-guy", "dir": "api" }
+  ],
+  "envRequired": [
+    "SUPABASE_URL",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "ANTHROPIC_API_KEY"
+  ],
+  "envOptional": [
+    "ADSPOWER_PROFILE_ID"
+  ],
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.27.0",
+    "@supabase/supabase-js": "^2.45.0"
+  },
+  "stats": {
+    "label": "100K+ views",
+    "value": "possible/month"
+  }
+}
